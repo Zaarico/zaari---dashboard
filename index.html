@@ -6,15 +6,7 @@
 <title>Zaari — Sales Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root {
-  --bg:#0f0f0f; --surface:#181818; --surface2:#222; --border:rgba(255,255,255,0.08);
-  --border2:rgba(255,255,255,0.14); --text:#f0f0f0; --text2:#888; --text3:#444;
-  --green:#4ade80; --green-bg:rgba(74,222,128,0.1);
-  --amber:#fbbf24; --amber-bg:rgba(251,191,36,0.1);
-  --red:#f87171; --red-bg:rgba(248,113,113,0.1);
-  --blue:#60a5fa; --blue-bg:rgba(96,165,250,0.1);
-  --accent:#c8f542; --radius:12px; --radius-sm:8px;
-}
+:root{--bg:#0f0f0f;--surface:#181818;--surface2:#222;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#f0f0f0;--text2:#888;--text3:#444;--green:#4ade80;--green-bg:rgba(74,222,128,0.1);--amber:#fbbf24;--amber-bg:rgba(251,191,36,0.1);--red:#f87171;--red-bg:rgba(248,113,113,0.1);--blue:#60a5fa;--blue-bg:rgba(96,165,250,0.1);--accent:#c8f542;--radius:12px;--radius-sm:8px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
 .shell{display:flex;min-height:100vh;}
@@ -28,7 +20,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(200,245,66,0.05);}
 .nav-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;padding:14px 20px 5px;}
 .sidebar-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);}
-.panel{display:none;} .panel.active{display:block;}
+.panel{display:none;}.panel.active{display:block;}
 .page-header{margin-bottom:24px;}
 .page-title{font-size:24px;font-weight:600;letter-spacing:-0.5px;}
 .page-sub{font-size:13px;color:var(--text2);margin-top:4px;}
@@ -37,11 +29,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .metric-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
 .metric-val{font-size:26px;font-weight:600;letter-spacing:-1px;}
 .metric-change{font-size:12px;margin-top:4px;}
-.up{color:var(--green);} .down{color:var(--red);} .neutral{color:var(--text2);}
+.up{color:var(--green);}.down{color:var(--red);}.neutral{color:var(--text2);}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
 .card-title{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:16px;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 .chart-wrap{position:relative;width:100%;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 th{text-align:left;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;padding:8px 10px;border-bottom:1px solid var(--border);font-weight:500;}
@@ -57,7 +48,8 @@ tr:hover td{background:var(--surface2);}
 .badge-amber{background:var(--amber-bg);color:var(--amber);}
 .badge-green{background:var(--green-bg);color:var(--green);}
 .badge-blue{background:var(--blue-bg);color:var(--blue);}
-.input-area{width:100%;min-height:110px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;color:var(--text);resize:vertical;outline:none;}
+.badge-grey{background:rgba(255,255,255,0.06);color:var(--text2);}
+.input-area{width:100%;min-height:110px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:12px;font-family:monospace;color:var(--text);resize:vertical;outline:none;}
 .input-area:focus{border-color:var(--accent);}
 .btn{padding:8px 18px;font-size:13px;font-weight:500;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface2);color:var(--text);cursor:pointer;transition:all 0.15s;}
 .btn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent);}
@@ -69,6 +61,48 @@ tr:hover td{background:var(--surface2);}
 .filter-label{font-size:12px;color:var(--text2);}
 select{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:12px;color:var(--text);outline:none;cursor:pointer;}
 select:focus{border-color:var(--accent);}
+.alert{padding:11px 15px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:14px;}
+.alert-red{background:var(--red-bg);border:1px solid rgba(248,113,113,0.2);color:var(--red);}
+.alert-amber{background:var(--amber-bg);border:1px solid rgba(251,191,36,0.2);color:var(--amber);}
+.empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px;}
+.doc-link{color:var(--accent);cursor:pointer;text-decoration:none;font-weight:500;}
+.doc-link:hover{text-decoration:underline;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);width:100%;max-width:760px;max-height:88vh;overflow-y:auto;padding:28px;}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.modal-title{font-size:20px;font-weight:600;letter-spacing:-0.3px;}
+.modal-close{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;}
+.modal-close:hover{color:var(--text);background:var(--surface2);}
+.modal-section{margin-bottom:20px;}
+.modal-section-title{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.sku-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sku-bar-name{font-size:13px;width:220px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sku-bar-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
+.sku-bar-fill{height:8px;border-radius:4px;}
+.sku-bar-val{font-size:12px;color:var(--text2);width:40px;text-align:right;flex-shrink:0;}
+.month-dot-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.month-dot{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.month-dot-label{font-size:10px;color:var(--text3);}
+.month-dot-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;}
+.dot-active{background:var(--accent);color:#0f0f0f;}
+.dot-inactive{background:var(--surface2);color:var(--text3);border:1px solid var(--border);}
+.top-sku-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(200,245,66,0.1);border:1px solid rgba(200,245,66,0.2);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--accent);margin-right:6px;margin-bottom:6px;}
+
+/* MONTHLY TRACKER TABLE */
+.monthly-tracker-wrap{overflow-x:auto;}
+.monthly-tracker-wrap table{min-width:800px;}
+.monthly-tracker-wrap td{font-size:12px;padding:7px 8px;}
+.monthly-tracker-wrap th{font-size:10px;padding:7px 8px;}
+.cell-active{background:rgba(200,245,66,0.15);color:var(--accent);font-weight:500;text-align:center;border-radius:4px;}
+.cell-inactive{color:var(--text3);text-align:center;}
+.cell-total{font-weight:600;color:var(--accent);text-align:right;}
+.dropoff-1{background:rgba(251,191,36,0.1);color:var(--amber);}
+.dropoff-2{background:rgba(248,113,113,0.1);color:var(--red);}
+
+/* INVENTORY / EXPIRY */
 .sku-expiry-block{padding:14px 0;border-bottom:1px solid var(--border);}
 .sku-expiry-block:last-child{border-bottom:none;padding-bottom:0;}
 .sku-expiry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
@@ -83,187 +117,85 @@ select:focus{border-color:var(--accent);}
 .month-chip.exp{border-color:var(--red);}
 .month-chip-name{font-size:10px;color:var(--text2);margin-bottom:2px;}
 .month-chip-val{font-size:13px;font-weight:500;color:var(--text);}
-.alert{padding:11px 15px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start;}
-.alert-red{background:var(--red-bg);border:1px solid rgba(248,113,113,0.2);color:var(--red);}
-.alert-amber{background:var(--amber-bg);border:1px solid rgba(251,191,36,0.2);color:var(--amber);}
-.empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px;}
 .sku-tracker-wrap{overflow-x:auto;}
-.sku-tracker-wrap table{min-width:900px;}
-.sku-tracker-wrap td.num{text-align:right;font-variant-numeric:tabular-nums;}
-.sku-tracker-wrap td.sku-name{font-weight:500;white-space:nowrap;}
-.sku-tracker-wrap td.total-col{font-weight:600;color:var(--accent);text-align:right;}
-.heat-0{color:var(--text3);}
-.heat-1{color:var(--text2);}
-.heat-2{color:var(--text);}
-.heat-3{color:var(--amber);}
-.heat-4{color:var(--green);font-weight:500;}
-.profit-zaari{color:var(--accent);font-weight:500;}
-.profit-entoura{color:var(--text2);}
-.divider{height:1px;background:var(--border);margin:20px 0;}
+.sku-tracker-wrap table{min-width:700px;}
+.heat-0{color:var(--text3);} .heat-1{color:var(--text2);} .heat-2{color:var(--text);} .heat-3{color:var(--amber);} .heat-4{color:var(--green);font-weight:500;}
 </style>
 </head>
 <body>
 <div class="shell">
-
 <nav class="sidebar">
-  <div class="logo">
-    <div class="logo-mark">Zaari</div>
-    <div class="logo-sub">Sales Intelligence</div>
-  </div>
+  <div class="logo"><div class="logo-mark">Zaari</div><div class="logo-sub">Sales Intelligence</div></div>
   <div class="nav-section">Analytics</div>
-  <div class="nav-item active" onclick="nav('overview',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    Overview
-  </div>
-  <div class="nav-item" onclick="nav('pl',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-    P&amp;L Summary
-  </div>
-  <div class="nav-item" onclick="nav('sku-tracker',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/></svg>
-    SKU Tracker
-  </div>
-  <div class="nav-item" onclick="nav('doctors',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-    Doctors
-  </div>
-  <div class="nav-item" onclick="nav('pharmacies',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-    Pharmacies
-  </div>
+  <div class="nav-item active" onclick="nav('overview',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Overview</div>
+  <div class="nav-item" onclick="nav('pl',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>P&amp;L Summary</div>
+  <div class="nav-item" onclick="nav('sku-tracker',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/></svg>SKU Tracker</div>
+  <div class="nav-item" onclick="nav('doctors',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>Doctors</div>
+  <div class="nav-item" onclick="nav('doc-monthly',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Monthly Tracker</div>
+  <div class="nav-item" onclick="nav('pharmacies',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>Pharmacies</div>
   <div class="nav-section">Stock</div>
-  <div class="nav-item" onclick="nav('inventory',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-    Inventory
-  </div>
-  <div class="nav-item" onclick="nav('expiry',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-    Expiry Tracker
-  </div>
+  <div class="nav-item" onclick="nav('inventory',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>Inventory</div>
+  <div class="nav-item" onclick="nav('expiry',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Expiry Tracker</div>
   <div class="nav-section">Data</div>
-  <div class="nav-item" onclick="nav('data',this)">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-    Paste Data
-  </div>
-  <div class="sidebar-footer">
-    <div id="data-count">No prescriber data</div>
-    <div style="margin-top:3px;" id="last-updated">—</div>
-  </div>
+  <div class="nav-item" onclick="nav('data',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>Paste Data</div>
+  <div class="sidebar-footer"><div id="data-count">No prescriber data</div><div style="margin-top:3px;" id="last-updated">—</div></div>
 </nav>
 
 <main class="main">
 
 <!-- OVERVIEW -->
 <div class="panel active" id="panel-overview">
-  <div class="page-header">
-    <div class="page-title">Overview</div>
-    <div class="page-sub">Zaari — May 2025 to February 2026</div>
-  </div>
+  <div class="page-header"><div class="page-title">Overview</div><div class="page-sub">Zaari — May 2025 to February 2026</div></div>
   <div class="metric-row">
     <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-val" style="color:var(--accent)">$430.9K</div><div class="metric-change neutral">All time</div></div>
     <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$197.3K</div><div class="metric-change neutral">45.8% margin</div></div>
     <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$147.5K</div><div class="metric-change neutral">All time</div></div>
-    <div class="metric-card"><div class="metric-label">Your Total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div><div class="metric-change neutral">Cumulative all time</div></div>
+    <div class="metric-card"><div class="metric-label">Your Total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div><div class="metric-change neutral">Cumulative</div></div>
     <div class="metric-card"><div class="metric-label">Your Total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$63.7K</div><div class="metric-change neutral">Retainer from Oct 25</div></div>
     <div class="metric-card"><div class="metric-label">Units Sold</div><div class="metric-val">4,196</div><div class="metric-change neutral">All SKUs</div></div>
-    <div class="metric-card"><div class="metric-label">Feb 2026</div><div class="metric-val">$52.6K</div><div class="metric-change up">▲ vs Jan</div></div>
   </div>
   <div class="grid-2">
-    <div class="card">
-      <div class="card-title">Monthly Revenue vs Net Profit</div>
-      <div class="chart-wrap" style="height:230px;"><canvas id="chart-rev-profit"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Zaari cumulative earnings</div>
-      <div class="chart-wrap" style="height:230px;"><canvas id="chart-cumulative"></canvas></div>
-    </div>
+    <div class="card"><div class="card-title">Monthly Revenue vs Net Profit</div><div class="chart-wrap" style="height:230px;"><canvas id="chart-rev-profit"></canvas></div></div>
+    <div class="card"><div class="card-title">Your cumulative earnings</div><div class="chart-wrap" style="height:230px;"><canvas id="chart-cumulative"></canvas></div></div>
   </div>
   <div class="grid-2">
-    <div class="card">
-      <div class="card-title">Units sold by month</div>
-      <div class="chart-wrap" style="height:200px;"><canvas id="chart-units-month"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Distro vs direct deals split</div>
-      <div class="chart-wrap" style="height:200px;"><canvas id="chart-distro-direct"></canvas></div>
-    </div>
+    <div class="card"><div class="card-title">Units sold by month</div><div class="chart-wrap" style="height:200px;"><canvas id="chart-units-month"></canvas></div></div>
+    <div class="card"><div class="card-title">Distro vs direct deals</div><div class="chart-wrap" style="height:200px;"><canvas id="chart-distro-direct"></canvas></div></div>
   </div>
 </div>
 
 <!-- P&L -->
 <div class="panel" id="panel-pl">
-  <div class="page-header">
-    <div class="page-title">P&amp;L Summary</div>
-    <div class="page-sub">Monthly financials from Xero · Profit split: 20/80 May–Sep 2025, then 5/95 from Oct 2025 (retainer)</div>
-  </div>
+  <div class="page-header"><div class="page-title">P&amp;L Summary</div><div class="page-sub">Monthly financials · 20/80 split May–Sep 2025 · 5/95 + $9K retainer from Oct 2025</div></div>
   <div class="metric-row">
     <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-val" style="color:var(--accent)">$430.9K</div></div>
-    <div class="metric-card"><div class="metric-label">Total COGS</div><div class="metric-val">$233.7K</div></div>
-    <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$197.3K</div><div class="metric-change neutral">45.8% GP margin</div></div>
-    <div class="metric-card"><div class="metric-label">Op Expenses</div><div class="metric-val">$50.6K</div></div>
+    <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$197.3K</div><div class="metric-change neutral">45.8% GP</div></div>
     <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$147.5K</div></div>
-    <div class="metric-card"><div class="metric-label">Your Cumulative</div><div class="metric-val" style="color:var(--accent)">$14.2K</div></div>
+    <div class="metric-card"><div class="metric-label">Retainer total</div><div class="metric-val">$49.5K</div><div class="metric-change neutral">inc GST, 5 months</div></div>
+    <div class="metric-card"><div class="metric-label">Your total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div></div>
+    <div class="metric-card"><div class="metric-label">Your total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$63.7K</div></div>
   </div>
   <div class="card">
     <div class="card-title">Monthly P&amp;L</div>
-    <div style="overflow-x:auto;">
-    <table style="min-width:800px;">
-      <thead><tr><th>Month</th><th style="text-align:right">Units</th><th style="text-align:right">Revenue</th><th style="text-align:right">COGS</th><th style="text-align:right">Gross Profit</th><th style="text-align:right">GP%</th><th style="text-align:right">Op Ex</th><th style="text-align:right">Net Profit</th><th style="text-align:right">%</th><th style="text-align:right">Profit Share</th><th style="text-align:right">Retainer ex</th><th style="text-align:right">Retainer inc</th><th style="text-align:right">Total ex GST</th><th style="text-align:right">Total inc GST</th></tr></thead>
-      <tbody id="pl-table"></tbody>
-    </table>
-    </div>
+    <div style="overflow-x:auto;"><table style="min-width:1000px;"><thead><tr>
+      <th>Month</th><th style="text-align:right">Units</th><th style="text-align:right">Revenue</th><th style="text-align:right">COGS</th><th style="text-align:right">Gross Profit</th><th style="text-align:right">GP%</th><th style="text-align:right">Op Ex</th><th style="text-align:right">Net Profit</th><th style="text-align:right">%</th><th style="text-align:right">Profit Share</th><th style="text-align:right">Retainer ex</th><th style="text-align:right">Retainer inc</th><th style="text-align:right">Total ex GST</th><th style="text-align:right">Total inc GST</th>
+    </tr></thead><tbody id="pl-table"></tbody></table></div>
   </div>
-  <div class="card">
-    <div class="card-title">Gross margin trend</div>
-    <div class="chart-wrap" style="height:200px;"><canvas id="chart-gp-pct"></canvas></div>
-  </div>
+  <div class="card"><div class="card-title">Gross margin trend</div><div class="chart-wrap" style="height:200px;"><canvas id="chart-gp-pct"></canvas></div></div>
 </div>
 
 <!-- SKU TRACKER -->
 <div class="panel" id="panel-sku-tracker">
-  <div class="page-header">
-    <div class="page-title">SKU Monthly Tracker</div>
-    <div class="page-sub">Units sold per SKU per month · Colour intensity = volume</div>
-  </div>
-  <div class="card">
-    <div class="card-title">May 2025 – Sep 2025</div>
-    <div class="sku-tracker-wrap">
-      <table>
-        <thead><tr><th>SKU</th><th style="text-align:right">May</th><th style="text-align:right">Jun</th><th style="text-align:right">Jul</th><th style="text-align:right">Aug</th><th style="text-align:right">Sep</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead>
-        <tbody id="sku-table-2025h1"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title">Oct 2025 – Dec 2025</div>
-    <div class="sku-tracker-wrap">
-      <table>
-        <thead><tr><th>SKU</th><th style="text-align:right">Oct</th><th style="text-align:right">Nov</th><th style="text-align:right">Dec</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead>
-        <tbody id="sku-table-2025h2"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title">Jan 2026 – Feb 2026</div>
-    <div class="sku-tracker-wrap">
-      <table>
-        <thead><tr><th>SKU</th><th style="text-align:right">Jan</th><th style="text-align:right">Feb</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead>
-        <tbody id="sku-table-2026"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title">SKU units by month</div>
-    <div class="chart-wrap" style="height:280px;"><canvas id="chart-sku-stacked"></canvas></div>
-  </div>
+  <div class="page-header"><div class="page-title">SKU Monthly Tracker</div><div class="page-sub">Units sold per SKU per month · Colour intensity = volume</div></div>
+  <div class="card"><div class="card-title">May 2025 – Sep 2025</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">May</th><th style="text-align:right">Jun</th><th style="text-align:right">Jul</th><th style="text-align:right">Aug</th><th style="text-align:right">Sep</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-h1"></tbody></table></div></div>
+  <div class="card"><div class="card-title">Oct 2025 – Dec 2025</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">Oct</th><th style="text-align:right">Nov</th><th style="text-align:right">Dec</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-h2"></tbody></table></div></div>
+  <div class="card"><div class="card-title">Jan 2026 – Feb 2026</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">Jan</th><th style="text-align:right">Feb</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-2026"></tbody></table></div></div>
+  <div class="card"><div class="card-title">SKU mix by month</div><div class="chart-wrap" style="height:280px;"><canvas id="chart-sku-stacked"></canvas></div></div>
 </div>
 
 <!-- DOCTORS -->
 <div class="panel" id="panel-doctors">
-  <div class="page-header">
-    <div class="page-title">Doctors</div>
-    <div class="page-sub">Prescriber tiers · High ≥90 · Mid ≥45 · Low &lt;45 · Based on prescriber data only (excl. direct deals)</div>
-  </div>
+  <div class="page-header"><div class="page-title">Doctors</div><div class="page-sub">Click a doctor's name to view their profile · Tiers: High ≥90 · Mid ≥45 · Low &lt;45</div></div>
   <div class="filter-bar">
     <span class="filter-label">Month:</span>
     <select id="doc-month-filter" onchange="applyFilter()"><option value="all">All months</option></select>
@@ -276,18 +208,41 @@ select:focus{border-color:var(--accent);}
   </div>
   <div class="card">
     <table>
-      <thead><tr><th>Doctor</th><th>Units</th><th>SKUs</th><th>Pharmacies</th><th>Active months</th><th>Tier</th></tr></thead>
-      <tbody id="doctor-table"><tr><td colspan="6"><div class="empty">Paste prescriber data to see doctors</div></td></tr></tbody>
+      <thead><tr><th>Doctor</th><th>Units</th><th>Top SKU</th><th>SKUs</th><th>Pharmacies</th><th>Active months</th><th>Tier</th></tr></thead>
+      <tbody id="doctor-table"><tr><td colspan="7"><div class="empty">Paste prescriber data to see doctors</div></td></tr></tbody>
     </table>
+  </div>
+</div>
+
+<!-- DOCTOR MONTHLY TRACKER -->
+<div class="panel" id="panel-doc-monthly">
+  <div class="page-header"><div class="page-title">Doctor Monthly Tracker</div><div class="page-sub">Month-by-month prescribing activity · Click a name for full profile</div></div>
+  <div class="metric-row">
+    <div class="metric-card"><div class="metric-label">Active doctors</div><div class="metric-val" id="mt-active">—</div></div>
+    <div class="metric-card"><div class="metric-label">Consistent prescribers</div><div class="metric-val" id="mt-consistent">—</div><div class="metric-change neutral">Every month</div></div>
+    <div class="metric-card"><div class="metric-label">1-month drop-off</div><div class="metric-val" id="mt-drop1">—</div><div class="metric-change" style="color:var(--amber)">Missing last month</div></div>
+    <div class="metric-card"><div class="metric-label">2+ month drop-off</div><div class="metric-val" id="mt-drop2">—</div><div class="metric-change" style="color:var(--red)">Gone quiet</div></div>
+  </div>
+  <div class="card" style="margin-bottom:8px;">
+    <div style="display:flex;gap:16px;font-size:12px;color:var(--text2);flex-wrap:wrap;">
+      <span><span style="display:inline-block;width:12px;height:12px;background:rgba(200,245,66,0.15);border-radius:2px;margin-right:5px;vertical-align:middle;"></span>Active month</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:rgba(251,191,36,0.1);border-radius:2px;margin-right:5px;vertical-align:middle;"></span>1-month drop-off</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:rgba(248,113,113,0.1);border-radius:2px;margin-right:5px;vertical-align:middle;"></span>2+ month drop-off</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="monthly-tracker-wrap">
+      <table id="monthly-tracker-table">
+        <thead id="monthly-tracker-head"></thead>
+        <tbody id="monthly-tracker-body"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <!-- PHARMACIES -->
 <div class="panel" id="panel-pharmacies">
-  <div class="page-header">
-    <div class="page-title">Pharmacies</div>
-    <div class="page-sub">Based on prescriber data only (excl. direct deals)</div>
-  </div>
+  <div class="page-header"><div class="page-title">Pharmacies</div><div class="page-sub">Based on prescriber data (excl. direct deals)</div></div>
   <div class="filter-bar">
     <span class="filter-label">Month:</span>
     <select id="pharm-month-filter" onchange="applyFilter()"><option value="all">All months</option></select>
@@ -302,42 +257,29 @@ select:focus{border-color:var(--accent);}
 
 <!-- INVENTORY -->
 <div class="panel" id="panel-inventory">
-  <div class="page-header">
-    <div class="page-title">Inventory</div>
-    <div class="page-sub">Stock on hand — end of February 2026 · Managed by Entoura</div>
-  </div>
+  <div class="page-header"><div class="page-title">Inventory</div><div class="page-sub">Stock on hand — end of February 2026 · Managed by Entoura</div></div>
   <div class="alert alert-amber">Stock managed by Entoura. Update figures monthly after receiving inventory summary.</div>
-  <div class="card">
-    <div style="overflow-x:auto;">
-    <table style="min-width:700px;">
-      <thead><tr><th>SKU</th><th style="text-align:right">Leafio</th><th style="text-align:right">HH</th><th style="text-align:right">MCA</th><th style="text-align:right">TEE</th><th style="text-align:right">iHealth</th><th style="text-align:right">BEAM</th><th style="text-align:right">Total</th><th style="text-align:right">Feb sold</th><th style="text-align:right">Cover</th></tr></thead>
-      <tbody id="inv-body"></tbody>
-    </table>
-    </div>
-  </div>
+  <div class="card"><div style="overflow-x:auto;"><table style="min-width:700px;">
+    <thead><tr><th>SKU</th><th style="text-align:right">Leafio</th><th style="text-align:right">HH</th><th style="text-align:right">MCA</th><th style="text-align:right">TEE</th><th style="text-align:right">iHealth</th><th style="text-align:right">BEAM</th><th style="text-align:right">Total</th><th style="text-align:right">Feb sold</th><th style="text-align:right">Cover</th></tr></thead>
+    <tbody id="inv-body"></tbody>
+  </table></div></div>
 </div>
 
 <!-- EXPIRY -->
 <div class="panel" id="panel-expiry">
-  <div class="page-header">
-    <div class="page-title">Expiry Tracker</div>
-    <div class="page-sub">Monthly targets to sell through stock before expiry</div>
-  </div>
-  <div class="alert alert-red">⚠️ 20:10 Soft Chews (90) expiry date unknown — confirm with Entoura immediately. 1,392 units on hand.</div>
+  <div class="page-header"><div class="page-title">Expiry Tracker</div><div class="page-sub">Monthly targets to clear stock before expiry</div></div>
+  <div class="alert alert-red">⚠️ 20:10 Soft Chews (90) expiry unknown — confirm with Entoura immediately. 1,392 units on hand.</div>
   <div class="metric-row">
-    <div class="metric-card"><div class="metric-label">Units at risk</div><div class="metric-val">4,003</div><div class="metric-change neutral">across 6 SKUs</div></div>
+    <div class="metric-card"><div class="metric-label">Units at risk</div><div class="metric-val">4,003</div></div>
     <div class="metric-card"><div class="metric-label">Most urgent</div><div class="metric-val" style="font-size:16px;margin-top:4px;">Cake City</div><div class="metric-change neutral">May 2026 — 2 months</div></div>
-    <div class="metric-card"><div class="metric-label">Required / month</div><div class="metric-val">~667</div><div class="metric-change neutral">to clear all at-risk</div></div>
+    <div class="metric-card"><div class="metric-label">Required / month</div><div class="metric-val">~667</div></div>
   </div>
   <div class="card" id="expiry-blocks"></div>
 </div>
 
 <!-- DATA -->
 <div class="panel" id="panel-data">
-  <div class="page-header">
-    <div class="page-title">Paste Prescriber Data</div>
-    <div class="page-sub">Tab-separated: Date · Doctor · Product · Standard Product · Qty · Pharmacy · State</div>
-  </div>
+  <div class="page-header"><div class="page-title">Paste Prescriber Data</div><div class="page-sub">Tab-separated: Date · Doctor · Product · Standard Product · Qty · Pharmacy · State</div></div>
   <div class="card">
     <div class="card-title">Paste data here</div>
     <textarea class="input-area" id="paste-input" placeholder="2026-02-11&#9;Parul Agarwal&#9;Zaari Strawnana&#9;Zaari Strawnana&#9;1&#9;My Life My Health&#9;QLD"></textarea>
@@ -347,22 +289,47 @@ select:focus{border-color:var(--accent);}
       <span class="status-msg" id="load-status"></span>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title">Month filter (applies to Doctors &amp; Pharmacies)</div>
+  <div class="card"><div class="card-title">Filter</div>
     <select id="data-month-filter" onchange="applyFilter()" style="width:220px;"><option value="all">All months</option></select>
   </div>
-  <div class="card">
-    <div class="card-title">Loaded data summary</div>
-    <div id="data-summary" style="font-size:13px;color:var(--text2);">No prescriber data loaded.</div>
-  </div>
+  <div class="card"><div class="card-title">Summary</div><div id="data-summary" style="font-size:13px;color:var(--text2);">No prescriber data loaded.</div></div>
 </div>
 
 </main>
 </div>
 
+<!-- DOCTOR PROFILE MODAL -->
+<div class="modal-overlay" id="doc-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-doc-name">Doctor Name</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:4px;" id="modal-doc-meta"></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('doc-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Top SKU</div>
+      <div id="modal-top-sku"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">SKU breakdown</div>
+      <div id="modal-sku-bars"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Monthly activity</div>
+      <div class="month-dot-row" id="modal-month-dots"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Pharmacies prescribed through</div>
+      <div id="modal-pharmacies"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-// ─── STATIC P&L DATA ────────────────────────────────────────────
-const PL = [
+// ─── STATIC DATA ──────────────────────────────────────────────────
+const PL=[
   {m:'2025-05',label:'May 25',units:92, rev:9404.94, cogs:1698.46,opex:2531.90,zaariPct:0.20,retainerEx:0,    retainerInc:0},
   {m:'2025-06',label:'Jun 25',units:155,rev:15971.30,cogs:8661.21,opex:2158.84,zaariPct:0.20,retainerEx:0,    retainerInc:0},
   {m:'2025-07',label:'Jul 25',units:375,rev:38473.26,cogs:22463.65,opex:3871.19,zaariPct:0.20,retainerEx:0,   retainerInc:0},
@@ -374,16 +341,8 @@ const PL = [
   {m:'2026-01',label:'Jan 26',units:456,rev:47319.37,cogs:25062.02,opex:4015.35,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
   {m:'2026-02',label:'Feb 26',units:512,rev:52576.26,cogs:28543.21,opex:4886.58,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
 ];
-
-// Direct deals estimated units per month
-const DIRECT = {
-  '2025-05':74,'2025-06':99,'2025-07':267,'2025-08':244,
-  '2025-09':296,'2025-10':240,'2025-11':285,'2025-12':294,
-  '2026-01':343,'2026-02':387
-};
-
-// SKU tracker data
-const SKU_DATA = [
+const DIRECT={'2025-05':74,'2025-06':99,'2025-07':267,'2025-08':244,'2025-09':296,'2025-10':240,'2025-11':285,'2025-12':294,'2026-01':343,'2026-02':387};
+const SKU_DATA=[
   {sku:'20:10 Soft Chews (60)', may:34,jun:114,jul:251,aug:239,sep:290,oct:174,nov:208,dec:142,jan:81,feb:70},
   {sku:'Cake City',             may:58,jun:41, jul:105,aug:56, sep:96, oct:87, nov:105,dec:111,jan:60,feb:106},
   {sku:'Strawnana Flower',      may:0, jun:0,  jul:14, aug:8,  sep:30, oct:73, nov:68, dec:62, jan:40,feb:35},
@@ -393,18 +352,16 @@ const SKU_DATA = [
   {sku:'Gorilla Diesel Rosin',  may:0, jun:0,  jul:0,  aug:0,  sep:7,  oct:49, nov:64, dec:33, jan:54,feb:36},
   {sku:'15:15 Soft Chews (90)', may:0, jun:0,  jul:0,  aug:0,  sep:0,  oct:0,  nov:0,  dec:0,  jan:0, feb:15},
 ];
-
-const INVENTORY_DATA = [
-  {sku:'Cake City',               leafio:274,hh:12,mca:16,tee:8, ihealth:34, beam:85,  febSold:106},
-  {sku:'Strawnana Flower',        leafio:192,hh:5, mca:17,tee:16,ihealth:10, beam:414, febSold:35},
-  {sku:"Mokum's Tulip",           leafio:160,hh:25,mca:18,tee:23,ihealth:186,beam:217, febSold:28},
-  {sku:'Gorilla Diesel Rosin 2g', leafio:192,hh:3, mca:7, tee:36,ihealth:9,  beam:600, febSold:36},
-  {sku:'Strawnana Live Rosin 2g', leafio:73, hh:11,mca:9, tee:22,ihealth:13, beam:973, febSold:48},
-  {sku:'20:10 Soft Chews (90)',   leafio:180,hh:4, mca:10,tee:74,ihealth:74, beam:1050,febSold:174},
-  {sku:'15:15 Soft Chews (90)',   leafio:107,hh:20,mca:20,tee:38,ihealth:54, beam:981, febSold:15},
+const INVENTORY_DATA=[
+  {sku:'Cake City',              leafio:274,hh:12,mca:16,tee:8, ihealth:34, beam:85,  febSold:106},
+  {sku:'Strawnana Flower',       leafio:192,hh:5, mca:17,tee:16,ihealth:10, beam:414, febSold:35},
+  {sku:"Mokum's Tulip",          leafio:160,hh:25,mca:18,tee:23,ihealth:186,beam:217, febSold:28},
+  {sku:'Gorilla Diesel Rosin 2g',leafio:192,hh:3, mca:7, tee:36,ihealth:9,  beam:600, febSold:36},
+  {sku:'Strawnana Live Rosin 2g',leafio:73, hh:11,mca:9, tee:22,ihealth:13, beam:973, febSold:48},
+  {sku:'20:10 Soft Chews (90)',  leafio:180,hh:4, mca:10,tee:74,ihealth:74, beam:1050,febSold:174},
+  {sku:'15:15 Soft Chews (90)',  leafio:107,hh:20,mca:20,tee:38,ihealth:54, beam:981, febSold:15},
 ];
-
-const EXPIRY_SKUS = [
+const EXPIRY_SKUS=[
   {name:'Cake City',              stock:429,  febSold:106,monthsLeft:2,expiryLabel:'May 2026',color:'#f87171',note:'Repack at Epsilon Pharma',disc:false},
   {name:'Strawnana Flower',       stock:654,  febSold:35, monthsLeft:3,expiryLabel:'Jun 2026',color:'#f87171',note:'Discontinuing',disc:true},
   {name:"Mokum's Tulip",          stock:629,  febSold:28, monthsLeft:3,expiryLabel:'Jun 2026',color:'#f87171',note:'Discontinuing',disc:true},
@@ -412,147 +369,290 @@ const EXPIRY_SKUS = [
   {name:'Gorilla Diesel Rosin 2g',stock:847,  febSold:36, monthsLeft:4,expiryLabel:'Jul 2026',color:'#fbbf24',note:'',disc:false},
   {name:'15:15 Soft Chews (90)',  stock:1220, febSold:15, monthsLeft:9,expiryLabel:'Dec 2026',color:'#60a5fa',note:'New SKU — needs prescriber growth',disc:false},
 ];
+const SKU_COLORS=['#c8f542','#60a5fa','#f472b6','#fbbf24','#a78bfa','#34d399','#fb923c','#e879f9'];
+const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-const SKU_COLORS = ['#c8f542','#60a5fa','#f472b6','#fbbf24','#a78bfa','#34d399','#fb923c','#e879f9'];
-const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-// ─── NAV ────────────────────────────────────────────────────────
-function nav(name, el) {
+// ─── NAV ──────────────────────────────────────────────────────────
+function nav(name,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   el.classList.add('active');
 }
 
-// ─── PRESCRIBER DATA ─────────────────────────────────────────────
-let allRows = [], filtered = [], charts = {};
+// ─── PRESCRIBER DATA ──────────────────────────────────────────────
+let allRows=[],filtered=[],charts={};
 
-function parseRows(text) {
-  const rows = [];
-  text.trim().split('\n').forEach(line => {
-    const p = line.split('\t');
-    if (p.length < 5) return;
-    let date = p[0].trim();
-    if (/^\d{4}-\d{2}$/.test(date)) date += '-01';
-    const monNames = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-    const mMatch = date.match(/^([A-Za-z]+)\s+(\d{4})$/);
-    if (mMatch) {
-      const mi = monNames.indexOf(mMatch[1].toLowerCase());
-      if (mi >= 0) date = mMatch[2]+'-'+String(mi+1).padStart(2,'0')+'-01';
-    }
-    const qty = parseInt(p[4]) || 0;
-    if (qty < 1) return;
+function parseRows(text){
+  const rows=[];
+  text.trim().split('\n').forEach(line=>{
+    const p=line.split('\t');
+    if(p.length<5)return;
+    let date=p[0].trim();
+    if(/^\d{4}-\d{2}$/.test(date))date+='-01';
+    const mn2=['january','february','march','april','may','june','july','august','september','october','november','december'];
+    const mm=date.match(/^([A-Za-z]+)\s+(\d{4})$/);
+    if(mm){const mi=mn2.indexOf(mm[1].toLowerCase());if(mi>=0)date=mm[2]+'-'+String(mi+1).padStart(2,'0')+'-01';}
+    const qty=parseInt(p[4])||0;
+    if(qty<1)return;
     rows.push({date,doctor:p[1].trim(),product:p[2].trim(),stdProduct:p[3].trim(),qty,pharmacy:p[5]?p[5].trim():'',state:p[6]?p[6].trim():''});
   });
   return rows;
 }
 
-function getMonth(d) { return d?d.slice(0,7):'Unknown'; }
-function fmtMonth(m) {
-  if (!m||m==='Unknown') return m;
-  const [y,mo]=m.split('-');
-  return MONTHS_SHORT[parseInt(mo)-1]+' '+y;
-}
+function getMonth(d){return d?d.slice(0,7):'Unknown';}
+function fmtM(m){if(!m||m==='Unknown')return m;const[y,mo]=m.split('-');return MN[parseInt(mo)-1]+' '+y;}
 
-function loadData() {
-  const text = document.getElementById('paste-input').value;
-  const rows = parseRows(text);
-  if (!rows.length) { document.getElementById('load-status').textContent='No valid rows found.'; return; }
-  allRows = allRows.concat(rows);
+function loadData(){
+  const text=document.getElementById('paste-input').value;
+  const rows=parseRows(text);
+  if(!rows.length){document.getElementById('load-status').textContent='No valid rows found.';return;}
+  allRows=allRows.concat(rows);
   document.getElementById('load-status').textContent=`✓ ${rows.length} rows added. Total: ${allRows.length}`;
   document.getElementById('paste-input').value='';
-  rebuildFilters(); applyFilter(); updateSidebar();
+  rebuildFilters();applyFilter();updateSidebar();
 }
 
-function clearData() {
-  allRows=[]; filtered=[];
+function clearData(){
+  allRows=[];filtered=[];
   document.getElementById('load-status').textContent='Cleared.';
-  rebuildFilters(); renderDoctors([]); renderPharmacies([]); updateSidebar();
+  rebuildFilters();renderDoctors([]);renderPharmacies([]);renderMonthlyTracker();updateSidebar();
   document.getElementById('data-summary').textContent='No prescriber data loaded.';
 }
 
-function updateSidebar() {
+function updateSidebar(){
   const months=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
   document.getElementById('data-count').textContent=allRows.length?`${allRows.length} prescriber rows`:'No prescriber data';
-  document.getElementById('last-updated').textContent=months.length?`${fmtMonth(months[0])} → ${fmtMonth(months[months.length-1])}`:'—';
+  document.getElementById('last-updated').textContent=months.length?`${fmtM(months[0])} → ${fmtM(months[months.length-1])}`:'—';
 }
 
-function rebuildFilters() {
+function rebuildFilters(){
   const months=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
   ['doc-month-filter','pharm-month-filter','data-month-filter'].forEach(id=>{
     const sel=document.getElementById(id);
     const cur=sel.value;
     sel.innerHTML='<option value="all">All months</option>';
-    months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=fmtMonth(m);sel.appendChild(o);});
+    months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=fmtM(m);sel.appendChild(o);});
     if(cur&&months.includes(cur))sel.value=cur;
   });
 }
 
-function applyFilter() {
+function applyFilter(){
   const val=document.getElementById('doc-month-filter').value;
   ['doc-month-filter','pharm-month-filter','data-month-filter'].forEach(id=>document.getElementById(id).value=val);
   filtered=val==='all'?allRows:allRows.filter(r=>getMonth(r.date)===val);
-  renderDoctors(filtered); renderPharmacies(filtered);
+  renderDoctors(filtered);renderPharmacies(filtered);renderMonthlyTracker();
   const months=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
   document.getElementById('data-summary').innerHTML=allRows.length
     ?`<strong style="color:var(--text)">${allRows.length}</strong> rows across <strong style="color:var(--text)">${months.length}</strong> months. Showing <strong style="color:var(--accent)">${filtered.length}</strong> rows.`
     :'No prescriber data loaded.';
 }
 
-// ─── DOCTORS ─────────────────────────────────────────────────────
-function renderDoctors(rows) {
-  const docMap={};
+// ─── BUILD DOCTOR MAP ─────────────────────────────────────────────
+function buildDocMap(rows){
+  const dm={};
   rows.forEach(r=>{
-    if(!docMap[r.doctor])docMap[r.doctor]={units:0,skus:new Set(),pharms:new Set(),months:new Set()};
-    docMap[r.doctor].units+=r.qty; docMap[r.doctor].skus.add(r.stdProduct);
-    docMap[r.doctor].pharms.add(r.pharmacy); docMap[r.doctor].months.add(getMonth(r.date));
+    if(!dm[r.doctor])dm[r.doctor]={units:0,skus:{},pharms:new Set(),months:new Set()};
+    dm[r.doctor].units+=r.qty;
+    dm[r.doctor].skus[r.stdProduct]=(dm[r.doctor].skus[r.stdProduct]||0)+r.qty;
+    dm[r.doctor].pharms.add(r.pharmacy);
+    dm[r.doctor].months.add(getMonth(r.date));
   });
+  return dm;
+}
+
+// ─── DOCTORS ──────────────────────────────────────────────────────
+function renderDoctors(rows){
+  const dm=buildDocMap(rows);
   const allDocMonths={};
   allRows.forEach(r=>{if(!allDocMonths[r.doctor])allDocMonths[r.doctor]=new Set();allDocMonths[r.doctor].add(getMonth(r.date));});
   const val=document.getElementById('doc-month-filter').value;
   const months=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
   const idx=months.indexOf(val);
   const prevDocs=val!=='all'&&idx>0?new Set(allRows.filter(r=>getMonth(r.date)===months[idx-1]).map(r=>r.doctor)):new Set();
-  const sorted=Object.entries(docMap).sort((a,b)=>b[1].units-a[1].units);
+  const sorted=Object.entries(dm).sort((a,b)=>b[1].units-a[1].units);
   let hi=0,mi=0,lo=0,nw=0;
   const rows2=sorted.map(([name,d])=>{
     const tier=d.units>=90?'high':d.units>=45?'mid':'low';
     const isNew=val!=='all'&&!prevDocs.has(name);
     const tm=allDocMonths[name]?allDocMonths[name].size:d.months.size;
+    const topSku=Object.entries(d.skus).sort((a,b)=>b[1]-a[1])[0];
     if(tier==='high')hi++;else if(tier==='mid')mi++;else lo++;
     if(isNew)nw++;
-    return `<tr><td>${name}${isNew?' <span class="badge badge-new" style="margin-left:6px;font-size:10px;">new</span>':''}</td>
-      <td style="font-weight:500;color:var(--accent)">${d.units}</td><td>${d.skus.size}</td><td>${d.pharms.size}</td><td>${tm}</td>
-      <td><span class="badge badge-${tier}">${tier}</span></td></tr>`;
+    return `<tr>
+      <td><a class="doc-link" onclick="openDocProfile('${name.replace(/'/g,"\\'")}','all')">${name}</a>${isNew?' <span class="badge badge-new" style="font-size:10px;">new</span>':''}</td>
+      <td style="font-weight:500;color:var(--accent)">${d.units}</td>
+      <td style="color:var(--text2);font-size:12px;">${topSku?topSku[0].replace('Zaari ','')+'  ('+topSku[1]+')':'—'}</td>
+      <td>${Object.keys(d.skus).length}</td>
+      <td>${d.pharms.size}</td>
+      <td>${tm}</td>
+      <td><span class="badge badge-${tier}">${tier}</span></td>
+    </tr>`;
   });
   document.getElementById('d-high').textContent=hi||'—';
   document.getElementById('d-mid').textContent=mi||'—';
   document.getElementById('d-low').textContent=lo||'—';
   document.getElementById('d-new').textContent=nw||'—';
-  document.getElementById('doctor-table').innerHTML=rows2.length?rows2.join(''):'<tr><td colspan="6"><div class="empty">Paste prescriber data to see doctors</div></td></tr>';
+  document.getElementById('doctor-table').innerHTML=rows2.length?rows2.join(''):'<tr><td colspan="7"><div class="empty">Paste prescriber data to see doctors</div></td></tr>';
+}
+
+// ─── DOCTOR PROFILE MODAL ─────────────────────────────────────────
+function openDocProfile(name){
+  const docRows=allRows.filter(r=>r.doctor===name);
+  if(!docRows.length)return;
+  const dm=buildDocMap(docRows);
+  const d=dm[name];
+  const allMonths=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
+  const docMonths=new Set(docRows.map(r=>getMonth(r.date)));
+
+  document.getElementById('modal-doc-name').textContent=name;
+  const tier=d.units>=90?'high':d.units>=45?'mid':'low';
+  document.getElementById('modal-doc-meta').innerHTML=
+    `<span class="badge badge-${tier}" style="margin-right:8px;">${tier}</span>`+
+    `${d.units} total units · ${Object.keys(d.skus).length} SKUs · ${d.pharms.size} pharmacies · ${docMonths.size} active months`;
+
+  // Top SKU chip
+  const skusSorted=Object.entries(d.skus).sort((a,b)=>b[1]-a[1]);
+  const top=skusSorted[0];
+  document.getElementById('modal-top-sku').innerHTML=
+    `<span class="top-sku-chip">⭐ ${top[0].replace('Zaari ','')} — ${top[1]} units</span>`;
+
+  // SKU bars
+  const maxSku=top[1];
+  document.getElementById('modal-sku-bars').innerHTML=skusSorted.map(([sku,u],i)=>`
+    <div class="sku-bar-row">
+      <div class="sku-bar-name">${sku.replace('Zaari ','')}</div>
+      <div class="sku-bar-track"><div class="sku-bar-fill" style="width:${(u/maxSku*100).toFixed(0)}%;background:${SKU_COLORS[i%SKU_COLORS.length]}"></div></div>
+      <div class="sku-bar-val">${u}</div>
+    </div>`).join('');
+
+  // Month dots
+  document.getElementById('modal-month-dots').innerHTML=allMonths.map(m=>{
+    const active=docMonths.has(m);
+    const units=active?docRows.filter(r=>getMonth(r.date)===m).reduce((s,r)=>s+r.qty,0):0;
+    return `<div class="month-dot">
+      <div class="month-dot-label">${fmtM(m).split(' ')[0]}</div>
+      <div class="month-dot-circle ${active?'dot-active':'dot-inactive'}" title="${fmtM(m)}: ${units} units">${active?units:'—'}</div>
+    </div>`;
+  }).join('');
+
+  // Pharmacies
+  const pharmMap={};
+  docRows.forEach(r=>{pharmMap[r.pharmacy]=(pharmMap[r.pharmacy]||0)+r.qty;});
+  const pharmsSorted=Object.entries(pharmMap).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('modal-pharmacies').innerHTML=pharmsSorted.map(([p,u])=>
+    `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;">
+      <span>${p}</span><span style="color:var(--accent);font-weight:500">${u}</span>
+    </div>`).join('');
+
+  document.getElementById('doc-modal').classList.add('open');
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('doc-modal'))
+    document.getElementById('doc-modal').classList.remove('open');
+}
+
+// ─── MONTHLY TRACKER ──────────────────────────────────────────────
+function renderMonthlyTracker(){
+  const months=[...new Set(allRows.map(r=>getMonth(r.date)))].sort();
+  const doctors=[...new Set(allRows.map(r=>r.doctor))].sort();
+  if(!months.length||!doctors.length){
+    document.getElementById('monthly-tracker-head').innerHTML='<tr><th>Doctor</th></tr>';
+    document.getElementById('monthly-tracker-body').innerHTML='<tr><td><div class="empty">Paste prescriber data to see monthly tracker</div></td></tr>';
+    document.getElementById('mt-active').textContent='—';
+    document.getElementById('mt-consistent').textContent='—';
+    document.getElementById('mt-drop1').textContent='—';
+    document.getElementById('mt-drop2').textContent='—';
+    return;
+  }
+
+  // Build unit map
+  const unitMap={};
+  allRows.forEach(r=>{
+    const key=r.doctor+'__'+getMonth(r.date);
+    unitMap[key]=(unitMap[key]||0)+r.qty;
+  });
+
+  const lastMonth=months[months.length-1];
+  const secondLastMonth=months.length>1?months[months.length-2]:null;
+
+  let consistent=0,drop1=0,drop2=0;
+
+  // Build rows sorted by total units desc
+  const docTotals=doctors.map(doc=>{
+    const total=months.reduce((s,m)=>s+(unitMap[doc+'__'+m]||0),0);
+    return {doc,total};
+  }).sort((a,b)=>b.total-a.total);
+
+  // Header
+  document.getElementById('monthly-tracker-head').innerHTML=
+    '<tr><th style="min-width:180px;">Doctor</th>'+
+    months.map(m=>`<th style="text-align:center;min-width:52px;">${fmtM(m).split(' ')[0]}</th>`).join('')+
+    '<th style="text-align:right;min-width:52px;">Total</th><th style="min-width:100px;">Status</th></tr>';
+
+  const bodyRows=docTotals.map(({doc,total})=>{
+    const activeMths=months.filter(m=>(unitMap[doc+'__'+m]||0)>0);
+    const isConsistent=activeMths.length===months.length;
+    const activeInLast=unitMap[doc+'__'+lastMonth]>0;
+    const activeInSecond=secondLastMonth?(unitMap[doc+'__'+secondLastMonth]||0)>0:true;
+
+    // Drop-off detection
+    let dropStatus='';
+    if(!activeInLast&&activeInSecond){dropStatus='drop1';drop1++;}
+    else if(!activeInLast&&!activeInSecond&&activeMths.length>0){dropStatus='drop2';drop2++;}
+    else if(isConsistent){consistent++;}
+
+    const cells=months.map(m=>{
+      const u=unitMap[doc+'__'+m]||0;
+      return `<td class="${u?'cell-active':'cell-inactive'}">${u||'—'}</td>`;
+    }).join('');
+
+    let statusBadge='';
+    if(dropStatus==='drop1')statusBadge='<span class="badge badge-amber" style="font-size:10px;">1-mo drop</span>';
+    else if(dropStatus==='drop2')statusBadge='<span class="badge badge-red" style="font-size:10px;">gone quiet</span>';
+    else if(isConsistent)statusBadge='<span class="badge badge-green" style="font-size:10px;">consistent</span>';
+
+    const rowClass=dropStatus==='drop1'?'dropoff-1':dropStatus==='drop2'?'dropoff-2':'';
+
+    return `<tr class="${rowClass}">
+      <td><a class="doc-link" onclick="openDocProfile('${doc.replace(/'/g,"\\'")}','all')">${doc}</a></td>
+      ${cells}
+      <td class="cell-total">${total}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  });
+
+  document.getElementById('monthly-tracker-body').innerHTML=bodyRows.join('');
+  document.getElementById('mt-active').textContent=doctors.length;
+  document.getElementById('mt-consistent').textContent=consistent;
+  document.getElementById('mt-drop1').textContent=drop1;
+  document.getElementById('mt-drop2').textContent=drop2;
 }
 
 // ─── PHARMACIES ───────────────────────────────────────────────────
-function renderPharmacies(rows) {
+function renderPharmacies(rows){
   const pm={};
   rows.forEach(r=>{
     if(!pm[r.pharmacy])pm[r.pharmacy]={units:0,docs:new Set(),skus:new Set(),months:new Set(),state:r.state};
-    pm[r.pharmacy].units+=r.qty; pm[r.pharmacy].docs.add(r.doctor);
-    pm[r.pharmacy].skus.add(r.stdProduct); pm[r.pharmacy].months.add(getMonth(r.date));
+    pm[r.pharmacy].units+=r.qty;pm[r.pharmacy].docs.add(r.doctor);
+    pm[r.pharmacy].skus.add(r.stdProduct);pm[r.pharmacy].months.add(getMonth(r.date));
   });
   const allPM={};
   allRows.forEach(r=>{if(!allPM[r.pharmacy])allPM[r.pharmacy]=new Set();allPM[r.pharmacy].add(getMonth(r.date));});
   const sorted=Object.entries(pm).sort((a,b)=>b[1].units-a[1].units);
   document.getElementById('pharm-table').innerHTML=sorted.length
-    ?sorted.map(([name,p])=>`<tr><td>${name}</td>
+    ?sorted.map(([name,p])=>`<tr>
+        <td>${name}</td>
         <td><span style="font-size:11px;background:var(--surface2);padding:2px 7px;border-radius:4px;">${p.state}</span></td>
-        <td style="font-weight:500;color:var(--accent)">${p.units}</td><td>${p.docs.size}</td><td>${p.skus.size}</td>
+        <td style="font-weight:500;color:var(--accent)">${p.units}</td>
+        <td>${p.docs.size}</td><td>${p.skus.size}</td>
         <td>${allPM[name]?allPM[name].size:p.months.size}</td></tr>`).join('')
     :'<tr><td colspan="6"><div class="empty">Paste prescriber data to see pharmacies</div></td></tr>';
 }
 
 // ─── INVENTORY ────────────────────────────────────────────────────
-function renderInventory() {
+function renderInventory(){
   document.getElementById('inv-body').innerHTML=INVENTORY_DATA.map(d=>{
     const total=d.leafio+d.hh+d.mca+d.tee+d.ihealth+d.beam;
     const cov=d.febSold?(total/d.febSold).toFixed(1)+'x':'—';
@@ -568,110 +668,68 @@ function renderInventory() {
 }
 
 // ─── P&L TABLE ────────────────────────────────────────────────────
-function renderPL() {
-  let cumZ_ex=0, cumZ_inc=0;
+function renderPL(){
+  let cumEx=0,cumInc=0;
   document.getElementById('pl-table').innerHTML=PL.map(d=>{
-    const gp=d.rev-d.cogs;
-    const gpPct=(gp/d.rev*100).toFixed(1);
-    const net=gp-d.opex;
-    const profitShare=net*d.zaariPct;
-    const totalEx=profitShare+d.retainerEx;
-    const totalInc=profitShare+d.retainerInc;
-    cumZ_ex+=totalEx; cumZ_inc+=totalInc;
-    const pctLabel=d.zaariPct===0.20?'20%':'5%';
-    const hasRetainer=d.retainerEx>0;
+    const gp=d.rev-d.cogs;const gpPct=(gp/d.rev*100).toFixed(1);
+    const net=gp-d.opex;const ps=net*d.zaariPct;
+    const tex=ps+d.retainerEx;const tinc=ps+d.retainerInc;
+    cumEx+=tex;cumInc+=tinc;
+    const pct=d.zaariPct===0.20?'20%':'5%';
+    const hr=d.retainerEx>0;
     return `<tr>
       <td style="font-weight:500">${d.label}</td>
       <td style="text-align:right">${d.units}</td>
-      <td style="text-align:right">$${d.rev.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;color:var(--text2)">$${d.cogs.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;color:var(--green)">$${gp.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+      <td style="text-align:right">$${d.rev.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--text2)">$${d.cogs.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--green)">$${gp.toLocaleString('en',{maximumFractionDigits:0})}</td>
       <td style="text-align:right;color:var(--green)">${gpPct}%</td>
-      <td style="text-align:right;color:var(--text2)">$${d.opex.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;font-weight:500">$${net.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;color:var(--text2)">${pctLabel}</td>
-      <td style="text-align:right;color:var(--accent)">$${profitShare.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;color:var(--text2)">${hasRetainer?'$9,000':'—'}</td>
-      <td style="text-align:right;color:var(--text2)">${hasRetainer?'$9,900':'—'}</td>
-      <td style="text-align:right;color:var(--accent);font-weight:500">$${totalEx.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600">$${totalInc.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--text2)">$${d.opex.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;font-weight:500">$${net.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--text2)">${pct}</td>
+      <td style="text-align:right;color:var(--accent)">$${ps.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--text2)">${hr?'$9,000':'—'}</td>
+      <td style="text-align:right;color:var(--text2)">${hr?'$9,900':'—'}</td>
+      <td style="text-align:right;color:var(--accent);font-weight:500">$${tex.toLocaleString('en',{maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--accent);font-weight:600">$${tinc.toLocaleString('en',{maximumFractionDigits:0})}</td>
     </tr>`;
   }).join('');
 }
 
-// ─── SKU TRACKER TABLES ───────────────────────────────────────────
-function heatClass(val, max) {
-  if (!val) return 'heat-0';
-  const pct = val/max;
-  if (pct < 0.1) return 'heat-1';
-  if (pct < 0.3) return 'heat-2';
-  if (pct < 0.6) return 'heat-3';
-  return 'heat-4';
-}
-
-function renderSKUTables() {
-  const maxVal = Math.max(...SKU_DATA.flatMap(s=>[s.may,s.jun,s.jul,s.aug,s.sep,s.oct,s.nov,s.dec,s.jan,s.feb]));
-
-  // H1 2025
-  document.getElementById('sku-table-2025h1').innerHTML = SKU_DATA.map(s=>{
-    const tot=s.may+s.jun+s.jul+s.aug+s.sep;
-    return `<tr>
-      <td class="sku-name">${s.sku}</td>
-      ${[s.may,s.jun,s.jul,s.aug,s.sep].map(v=>`<td class="num ${heatClass(v,maxVal)}">${v||'—'}</td>`).join('')}
-      <td class="total-col">${tot||'—'}</td>
-    </tr>`;
+// ─── SKU TABLES ───────────────────────────────────────────────────
+function hc(v,mx){if(!v)return 'heat-0';const p=v/mx;return p<0.1?'heat-1':p<0.3?'heat-2':p<0.6?'heat-3':'heat-4';}
+function renderSKUTables(){
+  const mx=Math.max(...SKU_DATA.flatMap(s=>[s.may,s.jun,s.jul,s.aug,s.sep,s.oct,s.nov,s.dec,s.jan,s.feb]));
+  document.getElementById('sku-table-h1').innerHTML=SKU_DATA.map(s=>{
+    const t=s.may+s.jun+s.jul+s.aug+s.sep;
+    return `<tr><td style="font-weight:500">${s.sku}</td>${[s.may,s.jun,s.jul,s.aug,s.sep].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
   }).join('');
-
-  // H2 2025
-  document.getElementById('sku-table-2025h2').innerHTML = SKU_DATA.map(s=>{
-    const tot=s.oct+s.nov+s.dec;
-    return `<tr>
-      <td class="sku-name">${s.sku}</td>
-      ${[s.oct,s.nov,s.dec].map(v=>`<td class="num ${heatClass(v,maxVal)}">${v||'—'}</td>`).join('')}
-      <td class="total-col">${tot||'—'}</td>
-    </tr>`;
+  document.getElementById('sku-table-h2').innerHTML=SKU_DATA.map(s=>{
+    const t=s.oct+s.nov+s.dec;
+    return `<tr><td style="font-weight:500">${s.sku}</td>${[s.oct,s.nov,s.dec].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
   }).join('');
-
-  // 2026
-  document.getElementById('sku-table-2026').innerHTML = SKU_DATA.map(s=>{
-    const tot=s.jan+s.feb;
-    return `<tr>
-      <td class="sku-name">${s.sku}</td>
-      ${[s.jan,s.feb].map(v=>`<td class="num ${heatClass(v,maxVal)}">${v||'—'}</td>`).join('')}
-      <td class="total-col">${tot||'—'}</td>
-    </tr>`;
+  document.getElementById('sku-table-2026').innerHTML=SKU_DATA.map(s=>{
+    const t=s.jan+s.feb;
+    return `<tr><td style="font-weight:500">${s.sku}</td>${[s.jan,s.feb].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
   }).join('');
 }
 
 // ─── EXPIRY ───────────────────────────────────────────────────────
-function renderExpiry() {
-  const curMonthIdx = 2; // March 2026
-  document.getElementById('expiry-blocks').innerHTML = EXPIRY_SKUS.map(s=>{
-    const target=Math.ceil(s.stock/s.monthsLeft);
-    const sellable=s.febSold*s.monthsLeft;
-    const pct=Math.min(100,Math.round(sellable/s.stock*100));
-    const risk=Math.max(0,s.stock-sellable);
+function renderExpiry(){
+  document.getElementById('expiry-blocks').innerHTML=EXPIRY_SKUS.map(s=>{
+    const tgt=Math.ceil(s.stock/s.monthsLeft);
+    const sell=s.febSold*s.monthsLeft;
+    const pct=Math.min(100,Math.round(sell/s.stock*100));
+    const risk=Math.max(0,s.stock-sell);
     const bc=s.monthsLeft<=2?'badge-red':s.monthsLeft<=4?'badge-amber':'badge-blue';
     const chips=[];
-    for(let i=0;i<s.monthsLeft;i++){
-      const mi=(curMonthIdx+i)%12;
-      chips.push(`<div class="month-chip ${i===0?'cur':''}"><div class="month-chip-name">${MONTHS_SHORT[mi]}</div><div class="month-chip-val">${target}</div></div>`);
-    }
-    chips.push(`<div class="month-chip exp"><div class="month-chip-name">${MONTHS_SHORT[(curMonthIdx+s.monthsLeft)%12]} ⚠️</div><div class="month-chip-val" style="color:var(--red);font-size:11px;">expires</div></div>`);
+    for(let i=0;i<s.monthsLeft;i++){chips.push(`<div class="month-chip ${i===0?'cur':''}"><div class="month-chip-name">${MN[(2+i)%12]}</div><div class="month-chip-val">${tgt}</div></div>`);}
+    chips.push(`<div class="month-chip exp"><div class="month-chip-name">${MN[(2+s.monthsLeft)%12]} ⚠️</div><div class="month-chip-val" style="color:var(--red);font-size:11px;">expires</div></div>`);
     return `<div class="sku-expiry-block">
-      <div class="sku-expiry-header">
-        <div class="sku-expiry-name">${s.name}</div>
-        <span class="badge ${bc}">Expires ${s.expiryLabel} · ${s.monthsLeft}mo${s.disc?' · Discontinuing':''}</span>
-      </div>
-      <div class="sku-expiry-meta">
-        <span>Stock: <strong>${s.stock.toLocaleString()}</strong></span>
-        <span>Feb sold: <strong>${s.febSold}</strong></span>
-        <span>Need/month: <strong>${target}</strong></span>
-        <span>At risk: <strong style="color:var(--red)">~${risk.toLocaleString()}</strong></span>
-        ${s.note?`<span>${s.note}</span>`:''}
-      </div>
+      <div class="sku-expiry-header"><div class="sku-expiry-name">${s.name}</div><span class="badge ${bc}">Expires ${s.expiryLabel} · ${s.monthsLeft}mo${s.disc?' · Discontinuing':''}</span></div>
+      <div class="sku-expiry-meta"><span>Stock: <strong>${s.stock.toLocaleString()}</strong></span><span>Feb sold: <strong>${s.febSold}</strong></span><span>Need/month: <strong>${tgt}</strong></span><span>At risk: <strong style="color:var(--red)">~${risk.toLocaleString()}</strong></span>${s.note?`<span>${s.note}</span>`:''}</div>
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${s.color}"></div></div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:8px;">Sellable at current rate: ${sellable} / ${s.stock} (${pct}%)</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px;">Sellable at current rate: ${sell} / ${s.stock} (${pct}%)</div>
       <div class="monthly-targets-row">${chips.join('')}</div>
     </div>`;
   }).join('');
@@ -679,100 +737,58 @@ function renderExpiry() {
 
 // ─── CHARTS ──────────────────────────────────────────────────────
 function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
-const GRID='rgba(255,255,255,0.05)';
-const TICK='#555';
+const GR='rgba(255,255,255,0.05)',TC='#555';
 
-function initCharts() {
+function initCharts(){
   const labels=PL.map(d=>d.label);
   const revs=PL.map(d=>d.rev);
   const nets=PL.map(d=>d.rev-d.cogs-d.opex);
   const gps=PL.map(d=>((d.rev-d.cogs)/d.rev*100));
   const units=PL.map(d=>d.units);
-  const distroUnits=PL.map(d=>d.units-(DIRECT[d.m]||0));
-  const directUnits=PL.map(d=>DIRECT[d.m]||0);
-
-  // Cumulative Zaari
+  const distro=PL.map(d=>d.units-(DIRECT[d.m]||0));
+  const direct=PL.map(d=>DIRECT[d.m]||0);
   let cum=0;
-  const cumZaari=PL.map(d=>{
-    const net=d.rev-d.cogs-d.opex;
-    cum+=(net*d.zaariPct)+d.retainerEx;
-    return Math.round(cum);
-  });
+  const cumZ=PL.map(d=>{const n=d.rev-d.cogs-d.opex;cum+=(n*d.zaariPct)+d.retainerEx;return Math.round(cum);});
+  const opts=(horizontal,stacked)=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:stacked},y:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:stacked}}});
 
-  // Rev vs Net Profit
   dc('chart-rev-profit');
-  charts['chart-rev-profit']=new Chart(document.getElementById('chart-rev-profit').getContext('2d'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Revenue',data:revs,backgroundColor:'rgba(200,245,66,0.25)',borderColor:'#c8f542',borderWidth:1,borderRadius:3},
-      {label:'Net Profit',data:nets,backgroundColor:'rgba(74,222,128,0.35)',borderColor:'#4ade80',borderWidth:1,borderRadius:3},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:11},boxWidth:10}}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}}},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11},callback:v=>'$'+Math.round(v/1000)+'K'}}}}
-  });
+  charts['chart-rev-profit']=new Chart(document.getElementById('chart-rev-profit').getContext('2d'),{type:'bar',
+    data:{labels,datasets:[{label:'Revenue',data:revs,backgroundColor:'rgba(200,245,66,0.2)',borderColor:'#c8f542',borderWidth:1,borderRadius:3},{label:'Net Profit',data:nets,backgroundColor:'rgba(74,222,128,0.35)',borderColor:'#4ade80',borderWidth:1,borderRadius:3}]},
+    options:{...opts(false,false),plugins:{legend:{labels:{color:'#888',font:{size:11},boxWidth:10}}},scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}}},y:{grid:{color:GR},ticks:{color:TC,font:{size:11},callback:v=>'$'+Math.round(v/1000)+'K'}}}}});
 
-  // Cumulative
   dc('chart-cumulative');
-  charts['chart-cumulative']=new Chart(document.getElementById('chart-cumulative').getContext('2d'),{
-    type:'line',
-    data:{labels,datasets:[{label:'Zaari cumulative',data:cumZaari,borderColor:'#c8f542',backgroundColor:'rgba(200,245,66,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#c8f542'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}}},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11},callback:v=>'$'+v.toLocaleString()}}}}
-  });
+  charts['chart-cumulative']=new Chart(document.getElementById('chart-cumulative').getContext('2d'),{type:'line',
+    data:{labels,datasets:[{data:cumZ,borderColor:'#c8f542',backgroundColor:'rgba(200,245,66,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#c8f542'}]},
+    options:{...opts(false,false),scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}}},y:{grid:{color:GR},ticks:{color:TC,font:{size:11},callback:v=>'$'+v.toLocaleString()}}}}});
 
-  // Units by month
   dc('chart-units-month');
-  charts['chart-units-month']=new Chart(document.getElementById('chart-units-month').getContext('2d'),{
-    type:'bar',
+  charts['chart-units-month']=new Chart(document.getElementById('chart-units-month').getContext('2d'),{type:'bar',
     data:{labels,datasets:[{data:units,backgroundColor:'rgba(96,165,250,0.5)',borderColor:'#60a5fa',borderWidth:1,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}}},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}}}}}
-  });
+    options:opts(false,false)});
 
-  // Distro vs Direct stacked
   dc('chart-distro-direct');
-  charts['chart-distro-direct']=new Chart(document.getElementById('chart-distro-direct').getContext('2d'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Distro',data:distroUnits,backgroundColor:'rgba(96,165,250,0.6)',borderRadius:3,stack:'a'},
-      {label:'Direct',data:directUnits,backgroundColor:'rgba(200,245,66,0.5)',borderRadius:3,stack:'a'},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:11},boxWidth:10}}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}},stacked:true},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}},stacked:true}}}
-  });
+  charts['chart-distro-direct']=new Chart(document.getElementById('chart-distro-direct').getContext('2d'),{type:'bar',
+    data:{labels,datasets:[{label:'Distro',data:distro,backgroundColor:'rgba(96,165,250,0.6)',borderRadius:3,stack:'a'},{label:'Direct',data:direct,backgroundColor:'rgba(200,245,66,0.5)',borderRadius:3,stack:'a'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:11},boxWidth:10}}},scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true},y:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true}}}});
 
-  // GP% line
   dc('chart-gp-pct');
-  charts['chart-gp-pct']=new Chart(document.getElementById('chart-gp-pct').getContext('2d'),{
-    type:'line',
-    data:{labels,datasets:[{label:'GP%',data:gps,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#4ade80'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}}},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11},callback:v=>v.toFixed(0)+'%'},min:30,max:90}}}
-  });
+  charts['chart-gp-pct']=new Chart(document.getElementById('chart-gp-pct').getContext('2d'),{type:'line',
+    data:{labels,datasets:[{data:gps,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#4ade80'}]},
+    options:{...opts(false,false),scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}}},y:{grid:{color:GR},ticks:{color:TC,font:{size:11},callback:v=>v.toFixed(0)+'%'},min:30,max:90}}}});
 
-  // SKU stacked
   dc('chart-sku-stacked');
-  const skuLabels=['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'];
   const skuKeys=['may','jun','jul','aug','sep','oct','nov','dec','jan','feb'];
-  charts['chart-sku-stacked']=new Chart(document.getElementById('chart-sku-stacked').getContext('2d'),{
-    type:'bar',
-    data:{labels:skuLabels,datasets:SKU_DATA.map((s,i)=>({
-      label:s.sku,data:skuKeys.map(k=>s[k]),backgroundColor:SKU_COLORS[i%SKU_COLORS.length]+'aa',borderRadius:2,stack:'a'
-    }))},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#888',font:{size:10},boxWidth:8},position:'bottom'}},
-      scales:{x:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}},stacked:true},y:{grid:{color:GRID},ticks:{color:TICK,font:{size:11}},stacked:true}}}
-  });
+  charts['chart-sku-stacked']=new Chart(document.getElementById('chart-sku-stacked').getContext('2d'),{type:'bar',
+    data:{labels:['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'],
+      datasets:SKU_DATA.map((s,i)=>({label:s.sku,data:skuKeys.map(k=>s[k]),backgroundColor:SKU_COLORS[i%SKU_COLORS.length]+'99',borderRadius:2,stack:'a'}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:10},boxWidth:8},position:'bottom'}},
+      scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true},y:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true}}}});
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────
-renderPL();
-renderSKUTables();
-renderInventory();
-renderExpiry();
-renderDoctors([]);
-renderPharmacies([]);
-setTimeout(initCharts, 100);
+renderPL();renderSKUTables();renderInventory();renderExpiry();
+renderDoctors([]);renderPharmacies([]);renderMonthlyTracker();
+setTimeout(initCharts,100);
 </script>
 </body>
 </html>
