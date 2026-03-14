@@ -163,7 +163,8 @@ select:focus{border-color:var(--accent);}
     <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-val" style="color:var(--accent)">$430.9K</div><div class="metric-change neutral">All time</div></div>
     <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$197.3K</div><div class="metric-change neutral">45.8% margin</div></div>
     <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$147.5K</div><div class="metric-change neutral">All time</div></div>
-    <div class="metric-card"><div class="metric-label">Your Share</div><div class="metric-val" style="color:var(--accent)">$14.2K</div><div class="metric-change neutral">Cumulative</div></div>
+    <div class="metric-card"><div class="metric-label">Your Total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div><div class="metric-change neutral">Cumulative all time</div></div>
+    <div class="metric-card"><div class="metric-label">Your Total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$63.7K</div><div class="metric-change neutral">Retainer from Oct 25</div></div>
     <div class="metric-card"><div class="metric-label">Units Sold</div><div class="metric-val">4,196</div><div class="metric-change neutral">All SKUs</div></div>
     <div class="metric-card"><div class="metric-label">Feb 2026</div><div class="metric-val">$52.6K</div><div class="metric-change up">▲ vs Jan</div></div>
   </div>
@@ -207,7 +208,7 @@ select:focus{border-color:var(--accent);}
     <div class="card-title">Monthly P&amp;L</div>
     <div style="overflow-x:auto;">
     <table style="min-width:800px;">
-      <thead><tr><th>Month</th><th style="text-align:right">Units</th><th style="text-align:right">Revenue</th><th style="text-align:right">COGS</th><th style="text-align:right">Gross Profit</th><th style="text-align:right">GP%</th><th style="text-align:right">Op Expenses</th><th style="text-align:right">Net Profit</th><th style="text-align:right">Zaari %</th><th style="text-align:right">Your Share</th></tr></thead>
+      <thead><tr><th>Month</th><th style="text-align:right">Units</th><th style="text-align:right">Revenue</th><th style="text-align:right">COGS</th><th style="text-align:right">Gross Profit</th><th style="text-align:right">GP%</th><th style="text-align:right">Op Ex</th><th style="text-align:right">Net Profit</th><th style="text-align:right">%</th><th style="text-align:right">Profit Share</th><th style="text-align:right">Retainer ex</th><th style="text-align:right">Retainer inc</th><th style="text-align:right">Total ex GST</th><th style="text-align:right">Total inc GST</th></tr></thead>
       <tbody id="pl-table"></tbody>
     </table>
     </div>
@@ -362,16 +363,16 @@ select:focus{border-color:var(--accent);}
 <script>
 // ─── STATIC P&L DATA ────────────────────────────────────────────
 const PL = [
-  {m:'2025-05',label:'May 25',units:92,rev:9404.94,cogs:1698.46,opex:2531.90,zaariPct:0.20},
-  {m:'2025-06',label:'Jun 25',units:155,rev:15971.30,cogs:8661.21,opex:2158.84,zaariPct:0.20},
-  {m:'2025-07',label:'Jul 25',units:375,rev:38473.26,cogs:22463.65,opex:3871.19,zaariPct:0.20},
-  {m:'2025-08',label:'Aug 25',units:323,rev:31828.70,cogs:18782.06,opex:2894.92,zaariPct:0.20},
-  {m:'2025-09',label:'Sep 25',units:468,rev:48179.72,cogs:26695.22,opex:8644.36,zaariPct:0.20},
-  {m:'2025-10',label:'Oct 25',units:528,rev:54673.63,cogs:29919.53,opex:5617.80,zaariPct:0.05},
-  {m:'2025-11',label:'Nov 25',units:657,rev:67841.13,cogs:36717.62,opex:7993.40,zaariPct:0.05},
-  {m:'2025-12',label:'Dec 25',units:630,rev:64686.93,cogs:35108.68,opex:7838.77,zaariPct:0.05},
-  {m:'2026-01',label:'Jan 26',units:456,rev:47319.37,cogs:25062.02,opex:4015.35,zaariPct:0.05},
-  {m:'2026-02',label:'Feb 26',units:512,rev:52576.26,cogs:28543.21,opex:4886.58,zaariPct:0.05},
+  {m:'2025-05',label:'May 25',units:92, rev:9404.94, cogs:1698.46,opex:2531.90,zaariPct:0.20,retainerEx:0,    retainerInc:0},
+  {m:'2025-06',label:'Jun 25',units:155,rev:15971.30,cogs:8661.21,opex:2158.84,zaariPct:0.20,retainerEx:0,    retainerInc:0},
+  {m:'2025-07',label:'Jul 25',units:375,rev:38473.26,cogs:22463.65,opex:3871.19,zaariPct:0.20,retainerEx:0,   retainerInc:0},
+  {m:'2025-08',label:'Aug 25',units:323,rev:31828.70,cogs:18782.06,opex:2894.92,zaariPct:0.20,retainerEx:0,   retainerInc:0},
+  {m:'2025-09',label:'Sep 25',units:468,rev:48179.72,cogs:26695.22,opex:8644.36,zaariPct:0.20,retainerEx:0,   retainerInc:0},
+  {m:'2025-10',label:'Oct 25',units:528,rev:54673.63,cogs:29919.53,opex:5617.80,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
+  {m:'2025-11',label:'Nov 25',units:657,rev:67841.13,cogs:36717.62,opex:7993.40,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
+  {m:'2025-12',label:'Dec 25',units:630,rev:64686.93,cogs:35108.68,opex:7838.77,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
+  {m:'2026-01',label:'Jan 26',units:456,rev:47319.37,cogs:25062.02,opex:4015.35,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
+  {m:'2026-02',label:'Feb 26',units:512,rev:52576.26,cogs:28543.21,opex:4886.58,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
 ];
 
 // Direct deals estimated units per month
@@ -568,14 +569,17 @@ function renderInventory() {
 
 // ─── P&L TABLE ────────────────────────────────────────────────────
 function renderPL() {
-  let cumZ=0;
+  let cumZ_ex=0, cumZ_inc=0;
   document.getElementById('pl-table').innerHTML=PL.map(d=>{
     const gp=d.rev-d.cogs;
     const gpPct=(gp/d.rev*100).toFixed(1);
     const net=gp-d.opex;
-    const zaariShare=net*d.zaariPct;
-    cumZ+=zaariShare;
+    const profitShare=net*d.zaariPct;
+    const totalEx=profitShare+d.retainerEx;
+    const totalInc=profitShare+d.retainerInc;
+    cumZ_ex+=totalEx; cumZ_inc+=totalInc;
     const pctLabel=d.zaariPct===0.20?'20%':'5%';
+    const hasRetainer=d.retainerEx>0;
     return `<tr>
       <td style="font-weight:500">${d.label}</td>
       <td style="text-align:right">${d.units}</td>
@@ -586,7 +590,11 @@ function renderPL() {
       <td style="text-align:right;color:var(--text2)">$${d.opex.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
       <td style="text-align:right;font-weight:500">$${net.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
       <td style="text-align:right;color:var(--text2)">${pctLabel}</td>
-      <td style="text-align:right;color:var(--accent);font-weight:500">$${zaariShare.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--accent)">$${profitShare.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--text2)">${hasRetainer?'$9,000':'—'}</td>
+      <td style="text-align:right;color:var(--text2)">${hasRetainer?'$9,900':'—'}</td>
+      <td style="text-align:right;color:var(--accent);font-weight:500">$${totalEx.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+      <td style="text-align:right;color:var(--accent);font-weight:600">$${totalInc.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
     </tr>`;
   }).join('');
 }
@@ -685,7 +693,11 @@ function initCharts() {
 
   // Cumulative Zaari
   let cum=0;
-  const cumZaari=PL.map(d=>{cum+=((d.rev-d.cogs-d.opex)*d.zaariPct);return Math.round(cum);});
+  const cumZaari=PL.map(d=>{
+    const net=d.rev-d.cogs-d.opex;
+    cum+=(net*d.zaariPct)+d.retainerEx;
+    return Math.round(cum);
+  });
 
   // Rev vs Net Profit
   dc('chart-rev-profit');
