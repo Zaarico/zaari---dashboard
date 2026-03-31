@@ -288,6 +288,7 @@ select:focus{border-color:var(--accent);}
       <button class="btn" onclick="clearData()">Clear all</button>
       <span class="status-msg" id="load-status"></span>
     </div>
+    <div id="parse-preview"></div>
   </div>
   <div class="card"><div class="card-title">Filter</div>
     <select id="data-month-filter" onchange="applyFilter()" style="width:220px;"><option value="all">All months</option></select>
@@ -383,22 +384,47 @@ function nav(name,el){
 // ─── PRESCRIBER DATA ──────────────────────────────────────────────
 let allRows=[],filtered=[],charts={};
 
+function parseDate(raw){
+  let d=raw.trim();
+  // Already full ISO: 2026-02-11 or 2026-02-11T...
+  if(/^\d{4}-\d{2}-\d{2}/.test(d))return d.slice(0,10);
+  // YYYY-MM only
+  if(/^\d{4}-\d{2}$/.test(d))return d+'-01';
+  // DD/MM/YYYY or D/M/YYYY (Australian)
+  const dmy=d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(dmy)return dmy[3]+'-'+dmy[2].padStart(2,'0')+'-'+dmy[1].padStart(2,'0');
+  // MM/DD/YYYY
+  const mdy=d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(mdy)return mdy[3]+'-'+mdy[1].padStart(2,'0')+'-'+mdy[2].padStart(2,'0');
+  // DD-MM-YYYY
+  const dmyd=d.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+  if(dmyd)return dmyd[3]+'-'+dmyd[2].padStart(2,'0')+'-'+dmyd[1].padStart(2,'0');
+  // "January 2026" or "Jan 2026"
+  const mn2=['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const mm=d.match(/^([A-Za-z]+)\s+(\d{4})$/);
+  if(mm){const mi=mn2.indexOf(mm[1].toLowerCase());if(mi>=0)return mm[2]+'-'+String(mi+1).padStart(2,'0')+'-01';}
+  // "2026-02" from month-only col
+  if(/^\d{4}-\d{2}$/.test(d))return d+'-01';
+  return d; // return as-is, getMonth will still slice 0-7
+}
+
 function parseRows(text){
   const rows=[];
-  text.trim().split('\n').forEach(line=>{
-    const p=line.split('\t');
+  const skipped=[];
+  text.trim().split('\n').forEach((line,i)=>{
+    const p=line.split('\t').map(s=>s.trim());
     if(p.length<5)return;
-    let date=p[0].trim();
-    if(/^\d{4}-\d{2}$/.test(date))date+='-01';
-    const mn2=['january','february','march','april','may','june','july','august','september','october','november','december'];
-    const mm=date.match(/^([A-Za-z]+)\s+(\d{4})$/);
-    if(mm){const mi=mn2.indexOf(mm[1].toLowerCase());if(mi>=0)date=mm[2]+'-'+String(mi+1).padStart(2,'0')+'-01';}
+    // Skip header rows
+    if(/^date$/i.test(p[0])||/^doctor$/i.test(p[1]))return;
+    const date=parseDate(p[0]);
     const qty=parseInt(p[4])||0;
-    if(qty<1)return;
-    rows.push({date,doctor:p[1].trim(),product:p[2].trim(),stdProduct:p[3].trim(),qty,pharmacy:p[5]?p[5].trim():'',state:p[6]?p[6].trim():''});
+    if(qty<1){skipped.push({line:i+1,raw:line.slice(0,60),reason:'qty=0'});return;}
+    rows.push({date,doctor:p[1],product:p[2],stdProduct:p[3],qty,pharmacy:p[5]||'',state:p[6]||''});
   });
+  parseRows._skipped=skipped;
   return rows;
 }
+parseRows._skipped=[];
 
 function getMonth(d){return d?d.slice(0,7):'Unknown';}
 function fmtM(m){if(!m||m==='Unknown')return m;const[y,mo]=m.split('-');return MN[parseInt(mo)-1]+' '+y;}
@@ -406,9 +432,20 @@ function fmtM(m){if(!m||m==='Unknown')return m;const[y,mo]=m.split('-');return M
 function loadData(){
   const text=document.getElementById('paste-input').value;
   const rows=parseRows(text);
-  if(!rows.length){document.getElementById('load-status').textContent='No valid rows found.';return;}
+  const skipped=parseRows._skipped||[];
+  const statusEl=document.getElementById('load-status');
+  const previewEl=document.getElementById('parse-preview');
+  if(!rows.length){
+    statusEl.innerHTML='<span style="color:var(--red)">No valid rows found.</span>'+(skipped.length?' '+skipped.length+' rows skipped (qty=0 or missing).':'');
+    if(skipped.length&&previewEl)previewEl.innerHTML='<div style="margin-top:10px;font-size:12px;color:var(--red)">First skipped row: <code>'+skipped[0].raw+'</code></div>';
+    return;
+  }
   allRows=allRows.concat(rows);
-  document.getElementById('load-status').textContent=`✓ ${rows.length} rows added. Total: ${allRows.length}`;
+  statusEl.innerHTML='<span style="color:var(--green)">✓ '+rows.length+' rows loaded.</span> Total: '+allRows.length+(skipped.length?' · '+skipped.length+' skipped':'');
+  if(previewEl){
+    const preview=rows.slice(0,3).map(r=>'<tr><td>'+r.date+'</td><td>'+r.doctor+'</td><td>'+(r.stdProduct||r.product)+'</td><td>'+r.qty+'</td><td>'+r.pharmacy+'</td><td>'+r.state+'</td></tr>').join('');
+    previewEl.innerHTML='<div style="margin-top:12px;"><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Preview (first '+Math.min(3,rows.length)+' of '+rows.length+' rows)</div><div style="overflow-x:auto;"><table style="font-size:12px;"><thead><tr><th>Date</th><th>Doctor</th><th>Std Product</th><th>Qty</th><th>Pharmacy</th><th>State</th></tr></thead><tbody>'+preview+'</tbody></table></div></div>';
+  }
   document.getElementById('paste-input').value='';
   rebuildFilters();applyFilter();updateSidebar();
 }
