@@ -147,12 +147,12 @@ select:focus{border-color:var(--accent);}
 <div class="panel active" id="panel-overview">
   <div class="page-header"><div class="page-title">Overview</div><div class="page-sub">Zaari — May 2025 to February 2026</div></div>
   <div class="metric-row">
-    <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-val" style="color:var(--accent)">$430.9K</div><div class="metric-change neutral">All time</div></div>
-    <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$197.3K</div><div class="metric-change neutral">45.8% margin</div></div>
-    <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$147.5K</div><div class="metric-change neutral">All time</div></div>
-    <div class="metric-card"><div class="metric-label">Your Total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div><div class="metric-change neutral">Cumulative</div></div>
-    <div class="metric-card"><div class="metric-label">Your Total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$63.7K</div><div class="metric-change neutral">Retainer from Oct 25</div></div>
-    <div class="metric-card"><div class="metric-label">Units Sold</div><div class="metric-val">4,196</div><div class="metric-change neutral">All SKUs</div></div>
+    <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-val" style="color:var(--accent)">$481.9K</div><div class="metric-change neutral">All time</div></div>
+    <div class="metric-card"><div class="metric-label">Gross Profit</div><div class="metric-val">$219.6K</div><div class="metric-change neutral">45.6% margin</div></div>
+    <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$163.1K</div><div class="metric-change neutral">All time</div></div>
+    <div class="metric-card"><div class="metric-label">Your Total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$60.5K</div><div class="metric-change neutral">Cumulative</div></div>
+    <div class="metric-card"><div class="metric-label">Your Total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$65.5K</div><div class="metric-change neutral">Retainer from Oct 25</div></div>
+    <div class="metric-card"><div class="metric-label">Units Sold</div><div class="metric-val">4,699</div><div class="metric-change neutral">All SKUs</div></div>
   </div>
   <div class="grid-2">
     <div class="card"><div class="card-title">Monthly Revenue vs Net Profit</div><div class="chart-wrap" style="height:230px;"><canvas id="chart-rev-profit"></canvas></div></div>
@@ -173,7 +173,7 @@ select:focus{border-color:var(--accent);}
     <div class="metric-card"><div class="metric-label">Net Profit</div><div class="metric-val">$147.5K</div></div>
     <div class="metric-card"><div class="metric-label">Retainer total</div><div class="metric-val">$49.5K</div><div class="metric-change neutral">inc GST, 5 months</div></div>
     <div class="metric-card"><div class="metric-label">Your total (ex GST)</div><div class="metric-val" style="color:var(--accent)">$59.2K</div></div>
-    <div class="metric-card"><div class="metric-label">Your total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$63.7K</div></div>
+    <div class="metric-card"><div class="metric-label">Your total (inc GST)</div><div class="metric-val" style="color:var(--accent)">$65.5K</div></div>
   </div>
   <div class="card">
     <div class="card-title">Monthly P&amp;L</div>
@@ -189,7 +189,7 @@ select:focus{border-color:var(--accent);}
   <div class="page-header"><div class="page-title">SKU Monthly Tracker</div><div class="page-sub">Units sold per SKU per month · Colour intensity = volume</div></div>
   <div class="card"><div class="card-title">May 2025 – Sep 2025</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">May</th><th style="text-align:right">Jun</th><th style="text-align:right">Jul</th><th style="text-align:right">Aug</th><th style="text-align:right">Sep</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-h1"></tbody></table></div></div>
   <div class="card"><div class="card-title">Oct 2025 – Dec 2025</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">Oct</th><th style="text-align:right">Nov</th><th style="text-align:right">Dec</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-h2"></tbody></table></div></div>
-  <div class="card"><div class="card-title">Jan 2026 – Feb 2026</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">Jan</th><th style="text-align:right">Feb</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-2026"></tbody></table></div></div>
+  <div class="card"><div class="card-title">Jan 2026 – Mar 2026</div><div class="sku-tracker-wrap"><table><thead><tr><th>SKU</th><th style="text-align:right">Jan</th><th style="text-align:right">Feb</th><th style="text-align:right">Mar</th><th style="text-align:right;color:var(--accent)">Total</th></tr></thead><tbody id="sku-table-2026"></tbody></table></div></div>
   <div class="card"><div class="card-title">SKU mix by month</div><div class="chart-wrap" style="height:280px;"><canvas id="chart-sku-stacked"></canvas></div></div>
 </div>
 
@@ -330,7 +330,7 @@ select:focus{border-color:var(--accent);}
 
 <script>
 // ─── STATIC DATA ──────────────────────────────────────────────────
-const PL=[
+let PL=[
   {m:'2025-05',label:'May 25',units:92, rev:9404.94, cogs:1698.46,opex:2531.90,zaariPct:0.20,retainerEx:0,    retainerInc:0},
   {m:'2025-06',label:'Jun 25',units:155,rev:15971.30,cogs:8661.21,opex:2158.84,zaariPct:0.20,retainerEx:0,    retainerInc:0},
   {m:'2025-07',label:'Jul 25',units:375,rev:38473.26,cogs:22463.65,opex:3871.19,zaariPct:0.20,retainerEx:0,   retainerInc:0},
@@ -341,17 +341,19 @@ const PL=[
   {m:'2025-12',label:'Dec 25',units:630,rev:64686.93,cogs:35108.68,opex:7838.77,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
   {m:'2026-01',label:'Jan 26',units:456,rev:47319.37,cogs:25062.02,opex:4015.35,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
   {m:'2026-02',label:'Feb 26',units:512,rev:52576.26,cogs:28543.21,opex:4886.58,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
+  {m:'2026-03',label:'Mar 26',units:503,rev:50874.97,cogs:28641.60,opex:6680.19,zaariPct:0.05,retainerEx:9000,retainerInc:9900},
 ];
-const DIRECT={'2025-05':74,'2025-06':99,'2025-07':267,'2025-08':244,'2025-09':296,'2025-10':240,'2025-11':285,'2025-12':294,'2026-01':343,'2026-02':387};
-const SKU_DATA=[
-  {sku:'20:10 Soft Chews (60)', may:34,jun:114,jul:251,aug:239,sep:290,oct:174,nov:208,dec:142,jan:81,feb:70},
-  {sku:'Cake City',             may:58,jun:41, jul:105,aug:56, sep:96, oct:87, nov:105,dec:111,jan:60,feb:106},
-  {sku:'Strawnana Flower',      may:0, jun:0,  jul:14, aug:8,  sep:30, oct:73, nov:68, dec:62, jan:40,feb:35},
-  {sku:"Mokum's Tulip",         may:0, jun:0,  jul:5,  aug:20, sep:29, oct:34, nov:30, dec:38, jan:26,feb:28},
-  {sku:'20:10 Soft Chews (90)', may:0, jun:0,  jul:0,  aug:0,  sep:8,  oct:37, nov:93, dec:169,jan:115,feb:174},
-  {sku:'Strawnana Live Rosin',  may:0, jun:0,  jul:0,  aug:0,  sep:8,  oct:74, nov:89, dec:75, jan:80,feb:48},
-  {sku:'Gorilla Diesel Rosin',  may:0, jun:0,  jul:0,  aug:0,  sep:7,  oct:49, nov:64, dec:33, jan:54,feb:36},
-  {sku:'15:15 Soft Chews (90)', may:0, jun:0,  jul:0,  aug:0,  sep:0,  oct:0,  nov:0,  dec:0,  jan:0, feb:15},
+let DIRECT={'2025-05':74,'2025-06':99,'2025-07':267,'2025-08':244,'2025-09':296,'2025-10':240,'2025-11':285,'2025-12':294,'2026-01':343,'2026-02':387,'2026-03':191};
+let SKU_DATA=[
+  {sku:'20:10 Soft Chews (60)', may:34,jun:114,jul:251,aug:239,sep:290,oct:174,nov:208,dec:142,jan:81,feb:70,mar:24},
+  {sku:'Cake City',             may:58,jun:41, jul:105,aug:56, sep:96, oct:87, nov:105,dec:111,jan:60,feb:106,mar:112},
+  {sku:'Strawnana Flower',      may:0, jun:0,  jul:14, aug:8,  sep:30, oct:73, nov:68, dec:62, jan:40,feb:35, mar:56},
+  {sku:"Mokum's Tulip",         may:0, jun:0,  jul:5,  aug:20, sep:29, oct:34, nov:30, dec:38, jan:26,feb:28,mar:34},
+  {sku:'20:10 Soft Chews (90)', may:0, jun:0,  jul:0,  aug:0,  sep:8,  oct:37, nov:93, dec:169,jan:115,feb:174,mar:109},
+  {sku:'Strawnana Live Rosin',  may:0, jun:0,  jul:0,  aug:0,  sep:8,  oct:74, nov:89, dec:75, jan:80,feb:48, mar:81},
+  {sku:'Gorilla Diesel Rosin',  may:0, jun:0,  jul:0,  aug:0,  sep:7,  oct:49, nov:64, dec:33, jan:54,feb:36, mar:45},
+  {sku:'15:15 Soft Chews (90)', may:0, jun:0,  jul:0,  aug:0,  sep:0,  oct:0,  nov:0,  dec:0,  jan:0, feb:15, mar:40},
+  {sku:'1:1 Live Rosin Cart',   may:0, jun:0,  jul:0,  aug:0,  sep:0,  oct:0,  nov:0,  dec:0,  jan:0, feb:0,  mar:2},
 ];
 const INVENTORY_DATA=[
   {sku:'Cake City',              leafio:274,hh:12,mca:16,tee:8, ihealth:34, beam:85,  febSold:106},
@@ -386,49 +388,37 @@ let allRows=[],filtered=[],charts={};
 
 function parseDate(raw){
   let d=raw.trim();
-  // Already full ISO: 2026-02-11 or 2026-02-11T...
   if(/^\d{4}-\d{2}-\d{2}/.test(d))return d.slice(0,10);
-  // YYYY-MM only
   if(/^\d{4}-\d{2}$/.test(d))return d+'-01';
-  // DD/MM/YYYY or D/M/YYYY (Australian)
   const dmy=d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if(dmy)return dmy[3]+'-'+dmy[2].padStart(2,'0')+'-'+dmy[1].padStart(2,'0');
-  // MM/DD/YYYY
-  const mdy=d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if(mdy)return mdy[3]+'-'+mdy[1].padStart(2,'0')+'-'+mdy[2].padStart(2,'0');
-  // DD-MM-YYYY
   const dmyd=d.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
   if(dmyd)return dmyd[3]+'-'+dmyd[2].padStart(2,'0')+'-'+dmyd[1].padStart(2,'0');
-  // "January 2026" or "Jan 2026"
   const mn2=['january','february','march','april','may','june','july','august','september','october','november','december'];
   const mm=d.match(/^([A-Za-z]+)\s+(\d{4})$/);
   if(mm){const mi=mn2.indexOf(mm[1].toLowerCase());if(mi>=0)return mm[2]+'-'+String(mi+1).padStart(2,'0')+'-01';}
-  // "2026-02" from month-only col
-  if(/^\d{4}-\d{2}$/.test(d))return d+'-01';
-  return d; // return as-is, getMonth will still slice 0-7
+  return d;
 }
-
 function parseRows(text){
-  const rows=[];
-  const skipped=[];
+  const rows=[];const skipped=[];
   text.trim().split('\n').forEach((line,i)=>{
     const p=line.split('\t').map(s=>s.trim());
     if(p.length<5)return;
-    // Skip header rows
     if(/^date$/i.test(p[0])||/^doctor$/i.test(p[1]))return;
     const date=parseDate(p[0]);
     const qty=parseInt(p[4])||0;
-    if(qty<1){skipped.push({line:i+1,raw:line.slice(0,60),reason:'qty=0'});return;}
+    if(qty<1){skipped.push({line:i+1,raw:line.slice(0,60)});return;}
     rows.push({date,doctor:p[1],product:p[2],stdProduct:p[3],qty,pharmacy:p[5]||'',state:p[6]||''});
   });
-  parseRows._skipped=skipped;
-  return rows;
+  parseRows._skipped=skipped;return rows;
 }
 parseRows._skipped=[];
 
 function getMonth(d){return d?d.slice(0,7):'Unknown';}
 function fmtM(m){if(!m||m==='Unknown')return m;const[y,mo]=m.split('-');return MN[parseInt(mo)-1]+' '+y;}
 
+function saveToStorage(){try{localStorage.setItem('zaari_rows',JSON.stringify(allRows));}catch(e){}}
+function loadFromStorage(){try{const s=localStorage.getItem('zaari_rows');if(s){allRows=JSON.parse(s);rebuildFilters();applyFilter();updateSidebar();}}catch(e){}}
 function loadData(){
   const text=document.getElementById('paste-input').value;
   const rows=parseRows(text);
@@ -436,18 +426,17 @@ function loadData(){
   const statusEl=document.getElementById('load-status');
   const previewEl=document.getElementById('parse-preview');
   if(!rows.length){
-    statusEl.innerHTML='<span style="color:var(--red)">No valid rows found.</span>'+(skipped.length?' '+skipped.length+' rows skipped (qty=0 or missing).':'');
-    if(skipped.length&&previewEl)previewEl.innerHTML='<div style="margin-top:10px;font-size:12px;color:var(--red)">First skipped row: <code>'+skipped[0].raw+'</code></div>';
+    statusEl.innerHTML='<span style="color:var(--red)">No valid rows found.</span>'+(skipped.length?' '+skipped.length+' rows skipped.':'');
     return;
   }
   allRows=allRows.concat(rows);
   statusEl.innerHTML='<span style="color:var(--green)">✓ '+rows.length+' rows loaded.</span> Total: '+allRows.length+(skipped.length?' · '+skipped.length+' skipped':'');
   if(previewEl){
     const preview=rows.slice(0,3).map(r=>'<tr><td>'+r.date+'</td><td>'+r.doctor+'</td><td>'+(r.stdProduct||r.product)+'</td><td>'+r.qty+'</td><td>'+r.pharmacy+'</td><td>'+r.state+'</td></tr>').join('');
-    previewEl.innerHTML='<div style="margin-top:12px;"><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Preview (first '+Math.min(3,rows.length)+' of '+rows.length+' rows)</div><div style="overflow-x:auto;"><table style="font-size:12px;"><thead><tr><th>Date</th><th>Doctor</th><th>Std Product</th><th>Qty</th><th>Pharmacy</th><th>State</th></tr></thead><tbody>'+preview+'</tbody></table></div></div>';
+    previewEl.innerHTML='<div style="margin-top:12px;"><div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Preview: first '+Math.min(3,rows.length)+' of '+rows.length+' rows</div><div style="overflow-x:auto;"><table style="font-size:12px;"><thead><tr><th>Date</th><th>Doctor</th><th>Std Product</th><th>Qty</th><th>Pharmacy</th><th>State</th></tr></thead><tbody>'+preview+'</tbody></table></div></div>';
   }
   document.getElementById('paste-input').value='';
-  rebuildFilters();applyFilter();updateSidebar();
+  rebuildFilters();applyFilter();updateSidebar();saveToStorage();
 }
 
 function clearData(){
@@ -736,7 +725,7 @@ function renderPL(){
 // ─── SKU TABLES ───────────────────────────────────────────────────
 function hc(v,mx){if(!v)return 'heat-0';const p=v/mx;return p<0.1?'heat-1':p<0.3?'heat-2':p<0.6?'heat-3':'heat-4';}
 function renderSKUTables(){
-  const mx=Math.max(...SKU_DATA.flatMap(s=>[s.may,s.jun,s.jul,s.aug,s.sep,s.oct,s.nov,s.dec,s.jan,s.feb]));
+  const mx=Math.max(...SKU_DATA.flatMap(s=>[s.may,s.jun,s.jul,s.aug,s.sep,s.oct,s.nov,s.dec,s.jan,s.feb,s.mar||0]));
   document.getElementById('sku-table-h1').innerHTML=SKU_DATA.map(s=>{
     const t=s.may+s.jun+s.jul+s.aug+s.sep;
     return `<tr><td style="font-weight:500">${s.sku}</td>${[s.may,s.jun,s.jul,s.aug,s.sep].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
@@ -746,8 +735,8 @@ function renderSKUTables(){
     return `<tr><td style="font-weight:500">${s.sku}</td>${[s.oct,s.nov,s.dec].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
   }).join('');
   document.getElementById('sku-table-2026').innerHTML=SKU_DATA.map(s=>{
-    const t=s.jan+s.feb;
-    return `<tr><td style="font-weight:500">${s.sku}</td>${[s.jan,s.feb].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
+    const t=(s.jan||0)+(s.feb||0)+(s.mar||0);
+    return `<tr><td style="font-weight:500">${s.sku}</td>${[s.jan,s.feb,s.mar].map(v=>`<td style="text-align:right" class="${hc(v,mx)}">${v||'—'}</td>`).join('')}<td style="text-align:right;font-weight:600;color:var(--accent)">${t||'—'}</td></tr>`;
   }).join('');
 }
 
@@ -814,9 +803,9 @@ function initCharts(){
     options:{...opts(false,false),scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}}},y:{grid:{color:GR},ticks:{color:TC,font:{size:11},callback:v=>v.toFixed(0)+'%'},min:30,max:90}}}});
 
   dc('chart-sku-stacked');
-  const skuKeys=['may','jun','jul','aug','sep','oct','nov','dec','jan','feb'];
+  const skuKeys=['may','jun','jul','aug','sep','oct','nov','dec','jan','feb','mar'];
   charts['chart-sku-stacked']=new Chart(document.getElementById('chart-sku-stacked').getContext('2d'),{type:'bar',
-    data:{labels:['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'],
+    data:{labels:['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],
       datasets:SKU_DATA.map((s,i)=>({label:s.sku,data:skuKeys.map(k=>s[k]),backgroundColor:SKU_COLORS[i%SKU_COLORS.length]+'99',borderRadius:2,stack:'a'}))},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:10},boxWidth:8},position:'bottom'}},
       scales:{x:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true},y:{grid:{color:GR},ticks:{color:TC,font:{size:11}},stacked:true}}}});
@@ -824,7 +813,7 @@ function initCharts(){
 
 // ─── INIT ─────────────────────────────────────────────────────────
 renderPL();renderSKUTables();renderInventory();renderExpiry();
-renderDoctors([]);renderPharmacies([]);renderMonthlyTracker();
+loadFromStorage();
 setTimeout(initCharts,100);
 </script>
 </body>
