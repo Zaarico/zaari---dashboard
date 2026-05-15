@@ -133,6 +133,7 @@ select:focus{border-color:var(--accent);}
   <div class="nav-item" onclick="nav('doctors',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>Doctors</div>
   <div class="nav-item" onclick="nav('doc-monthly',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Monthly Tracker</div>
   <div class="nav-item" onclick="nav('pharmacies',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>Pharmacies</div>
+  <div class="nav-item" onclick="nav('pharm-monthly',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Pharm Monthly</div>
   <div class="nav-section">Stock</div>
   <div class="nav-item" onclick="nav('inventory',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>Inventory</div>
   <div class="nav-item" onclick="nav('expiry',this)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Expiry Tracker</div>
@@ -252,6 +253,31 @@ select:focus{border-color:var(--accent);}
       <thead><tr><th>Pharmacy</th><th>State</th><th>Units</th><th>Doctors</th><th>SKUs</th><th>Active months</th></tr></thead>
       <tbody id="pharm-table"><tr><td colspan="6"><div class="empty">Paste prescriber data to see pharmacies</div></td></tr></tbody>
     </table>
+  </div>
+</div>
+
+<!-- PHARMACY MONTHLY TRACKER -->
+<div class="panel" id="panel-pharm-monthly">
+  <div class="page-header"><div class="page-title">Pharmacy Monthly Tracker</div><div class="page-sub">Units dispensed per pharmacy per month · prescriber data only</div></div>
+  <div class="filter-bar" style="flex-wrap:wrap;gap:8px;">
+    <span class="filter-label">State:</span>
+    <select id="pharm-state-filter" onchange="renderPharmMonthly()"><option value="all">All states</option></select>
+    <span class="filter-label" style="margin-left:12px;">SKU:</span>
+    <select id="pharm-sku-filter" onchange="renderPharmMonthly()"><option value="all">All SKUs</option></select>
+    <span class="filter-label" style="margin-left:12px;">Min units:</span>
+    <select id="pharm-min-filter" onchange="renderPharmMonthly()">
+      <option value="0">Show all</option>
+      <option value="5">5+</option>
+      <option value="10">10+</option>
+      <option value="20">20+</option>
+    </select>
+  </div>
+  <div class="card" style="overflow-x:auto;">
+    <div id="pharm-monthly-table"><div class="empty">Paste prescriber data to see pharmacy monthly tracker</div></div>
+  </div>
+  <div class="card" style="margin-top:12px;">
+    <div class="card-title">SKU Breakdown by Pharmacy</div>
+    <div id="pharm-sku-breakdown"><div class="empty" style="font-size:13px;">Paste prescriber data to see SKU breakdown</div></div>
   </div>
 </div>
 
@@ -418,7 +444,7 @@ function getMonth(d){return d?d.slice(0,7):'Unknown';}
 function fmtM(m){if(!m||m==='Unknown')return m;const[y,mo]=m.split('-');return MN[parseInt(mo)-1]+' '+y;}
 
 function saveToStorage(){try{localStorage.setItem('zaari_rows',JSON.stringify(allRows));}catch(e){}}
-function loadFromStorage(){try{const s=localStorage.getItem('zaari_rows');if(s){allRows=JSON.parse(s);rebuildFilters();applyFilter();updateSidebar();}}catch(e){}}
+function loadFromStorage(){try{const s=localStorage.getItem('zaari_rows');if(s){allRows=JSON.parse(s);rebuildFilters();applyFilter();renderPharmMonthly();updateSidebar();}}catch(e){}}
 function loadData(){
   const text=document.getElementById('paste-input').value;
   const rows=parseRows(text);
@@ -436,7 +462,7 @@ function loadData(){
     previewEl.innerHTML='<div style="margin-top:12px;"><div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Preview: first '+Math.min(3,rows.length)+' of '+rows.length+' rows</div><div style="overflow-x:auto;"><table style="font-size:12px;"><thead><tr><th>Date</th><th>Doctor</th><th>Std Product</th><th>Qty</th><th>Pharmacy</th><th>State</th></tr></thead><tbody>'+preview+'</tbody></table></div></div>';
   }
   document.getElementById('paste-input').value='';
-  rebuildFilters();applyFilter();updateSidebar();saveToStorage();
+  rebuildFilters();applyFilter();renderPharmMonthly();updateSidebar();saveToStorage();
 }
 
 function clearData(){
@@ -657,6 +683,107 @@ function renderMonthlyTracker(){
 }
 
 // ─── PHARMACIES ───────────────────────────────────────────────────
+
+// ─── PHARMACY MONTHLY TRACKER ────────────────────────────────────
+function renderPharmMonthly(){
+  if(!allRows.length){
+    document.getElementById('pharm-monthly-table').innerHTML='<div class="empty">Paste prescriber data to see pharmacy monthly tracker</div>';
+    document.getElementById('pharm-sku-breakdown').innerHTML='<div class="empty" style="font-size:13px;">Paste prescriber data to see SKU breakdown</div>';
+    return;
+  }
+
+  const stateFilter=document.getElementById('pharm-state-filter').value;
+  const skuFilter=document.getElementById('pharm-sku-filter').value;
+  const minFilter=parseInt(document.getElementById('pharm-min-filter').value)||0;
+
+  // Populate state filter
+  const states=[...new Set(allRows.map(r=>r.state))].filter(Boolean).sort();
+  const stateEl=document.getElementById('pharm-state-filter');
+  const curState=stateEl.value;
+  stateEl.innerHTML='<option value="all">All states</option>'+states.map(s=>`<option value="${s}" ${s===curState?'selected':''}>${s}</option>`).join('');
+
+  // Populate SKU filter
+  const skus=[...new Set(allRows.map(r=>r.stdProduct||r.product))].filter(Boolean).sort();
+  const skuEl=document.getElementById('pharm-sku-filter');
+  const curSku=skuEl.value;
+  skuEl.innerHTML='<option value="all">All SKUs</option>'+skus.map(s=>`<option value="${s}" ${s===curSku?'selected':''}>${s}</option>`).join('');
+
+  // Filter rows
+  let rows=allRows.filter(r=>{
+    if(stateFilter!=='all'&&r.state!==stateFilter)return false;
+    if(skuFilter!=='all'&&(r.stdProduct||r.product)!==skuFilter)return false;
+    return true;
+  });
+
+  // Get sorted months
+  const months=[...new Set(rows.map(r=>getMonth(r.date)))].filter(Boolean).sort();
+
+  // Build pharmacy → month → units map + sku map
+  const pharmMap={};
+  rows.forEach(r=>{
+    const p=r.pharmacy||'Unknown';
+    const m=getMonth(r.date);
+    const s=r.stdProduct||r.product;
+    if(!pharmMap[p])pharmMap[p]={state:r.state,months:{},skus:{}};
+    pharmMap[p].months[m]=(pharmMap[p].months[m]||0)+r.qty;
+    if(!pharmMap[p].skus[s])pharmMap[p].skus[s]=0;
+    pharmMap[p].skus[s]+=r.qty;
+  });
+
+  // Filter by min units total
+  const entries=Object.entries(pharmMap)
+    .map(([name,d])=>({name,state:d.state,months:d.months,skus:d.skus,total:Object.values(d.months).reduce((a,b)=>a+b,0)}))
+    .filter(e=>e.total>=minFilter)
+    .sort((a,b)=>b.total-a.total);
+
+  if(!entries.length){
+    document.getElementById('pharm-monthly-table').innerHTML='<div class="empty">No pharmacies match the current filters</div>';
+    return;
+  }
+
+  const maxUnits=Math.max(...entries.flatMap(e=>Object.values(e.months)));
+
+  function cellColor(v){
+    if(!v)return'var(--surface)';
+    const pct=v/maxUnits;
+    if(pct>0.7)return'rgba(var(--accent-rgb,99,102,241),0.25)';
+    if(pct>0.4)return'rgba(var(--accent-rgb,99,102,241),0.15)';
+    if(pct>0.1)return'rgba(var(--accent-rgb,99,102,241),0.07)';
+    return'var(--surface)';
+  }
+
+  const fmtMon=m=>{if(!m)return'';const[y,mo]=m.split('-');const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mn[parseInt(mo)-1]+' '+y.slice(2);};
+
+  const thead='<tr><th>Pharmacy</th><th>State</th>'+months.map(m=>`<th style="text-align:right;white-space:nowrap">${fmtMon(m)}</th>`).join('')+'<th style="text-align:right;color:var(--accent)">Total</th></tr>';
+
+  const tbody=entries.map(e=>{
+    const cells=months.map(m=>{
+      const v=e.months[m]||0;
+      return`<td style="text-align:right;background:${cellColor(v)};font-weight:${v?500:400};color:${v?'var(--text)':'var(--text3)'}">${v||'—'}</td>`;
+    }).join('');
+    return`<tr><td style="font-weight:500;white-space:nowrap">${e.name}</td><td><span style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:4px;">${e.state||'—'}</span></td>${cells}<td style="text-align:right;font-weight:700;color:var(--accent)">${e.total}</td></tr>`;
+  }).join('');
+
+  document.getElementById('pharm-monthly-table').innerHTML=`<table style="min-width:600px;"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+
+  // SKU breakdown section — top 10 pharmacies by total
+  const top10=entries.slice(0,10);
+  const skuBreakdown=top10.map(e=>{
+    const skuItems=Object.entries(e.skus).sort((a,b)=>b[1]-a[1]);
+    const bars=skuItems.map(([s,v])=>{
+      const pct=Math.round(v/e.total*100);
+      return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px;">
+        <div style="width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2)">${s.replace('Zaari ','')}</div>
+        <div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--accent);border-radius:4px;opacity:0.7;"></div></div>
+        <div style="width:30px;text-align:right;color:var(--text);font-weight:500">${v}</div>
+      </div>`;
+    }).join('');
+    return`<div style="margin-bottom:16px;"><div style="font-weight:600;font-size:13px;margin-bottom:6px;">${e.name} <span style="font-weight:400;color:var(--text2);font-size:12px;">(${e.total} units)</span></div>${bars}</div>`;
+  }).join('');
+
+  document.getElementById('pharm-sku-breakdown').innerHTML=skuBreakdown||'<div class="empty" style="font-size:13px;">No data</div>';
+}
+
 function renderPharmacies(rows){
   const pm={};
   rows.forEach(r=>{
